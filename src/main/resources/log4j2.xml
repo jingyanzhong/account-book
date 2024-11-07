@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="ERROR" monitorInterval="30">
+
+  <properties>
+    <property name="LOG_MAIN_FN">D:\logs\log4j2\log_main</property>
+    <property name="LOG_ERR_FN">D:\logs\log4j2\log_err</property>
+    <property name="LOG_PATTERN">
+      %-5level %d{yyyy-MM-dd HH:mm:ss.SSS} [ %l ] %m%n
+    </property>
+  </properties>
+
+  <Appenders>
+
+    <Console name="Console" target="SYSTEM_OUT">
+      <Filters>
+        <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
+      </Filters>
+      <PatternLayout pattern="${LOG_PATTERN}" />
+    </Console>
+
+    <Console name="ConsoleErr" target="SYSTEM_ERR">
+      <Filters>
+        <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout pattern="${LOG_PATTERN}" />
+    </Console>
+
+    <RollingFile name="RollingFileDebug"
+      fileName="${LOG_MAIN_FN}/debug.log"
+      filePattern="${LOG_MAIN_FN}/[debug]$${date:yyyy-MM}/debug-%d{yyyy-MM-dd HH-mm-ss}-%i.log">
+      <Filters>
+        <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL" />
+        <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout pattern="${LOG_PATTERN}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="4" modulate="true" />
+        <SizeBasedTriggeringPolicy size="100MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="10" />
+    </RollingFile>
+
+    <RollingFile name="RollingFileInfo"
+      fileName="${LOG_MAIN_FN}/info.log"
+      filePattern="${LOG_MAIN_FN}/[info]$${date:yyyy-MM}/info-%d{yyyy-MM-dd HH-mm-ss}-%i.log">
+      <Filters>
+        <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL" />
+        <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout pattern="${LOG_PATTERN}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="4" modulate="false" />
+        <SizeBasedTriggeringPolicy size="100MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="10" />
+    </RollingFile>
+
+    <!-- ERROR 層級寫檔 -->
+    <RollingFile name="RollingFileError"
+      fileName="${LOG_ERR_FN}/search-error.log"
+      filePattern="${LOG_ERR_FN}/$${date:yyyy-MM}/search-error-%d{yyyy-MM-dd}.log">
+      <Filters>
+        <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL" />
+        <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout pattern="${LOG_PATTERN}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+        <SizeBasedTriggeringPolicy size="100MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="100" />
+    </RollingFile>
+  </Appenders>
+
+  <!-- 註冊所需 log 設定 -->
+  <Loggers>
+
+    <!--過濾掉 library 的一些無用的 DEBUG 信息 -->
+    <logger name="org.springframework" level="INFO"></logger>
+    <logger name="org.springframework.web" level="INFO"></logger>
+    <logger name="org.thymeleaf" level="INFO"></logger>
+    <logger name="org.hibernate" level="INFO"></logger>
+
+    <!-- 設定 level = "all" 只能夠輸出 all 層級以上(含 all 層級) 的訊息 -->
+    <root level="all">
+      <appender-ref ref="Console" />
+      <appender-ref ref="ConsoleErr" />
+      <!-- <appender-ref ref="RollingFileInfo" /> -->
+      <!-- <appender-ref ref="RollingFileDebug" /> -->
+      <!-- <appender-ref ref="RollingFileError" /> -->
+    </root>
+  </Loggers>
+
+</configuration>
