@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>account-book</title>
+    <meta charset="utf-8">
+    <title>account-book</title>
+    <script>
+        function fetchData() {
+            // 發送 GET 請求到 API
+            fetch('./api/test')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();  // 根據 API 回傳的資料類型，可用 .json() 或 .text()
+                })
+                .then(data => {
+                    let jsObj = JSON.parse(data);
+                    console.log('API data:', jsObj);
+                    document.getElementById('output').innerText = jsObj.attr; 
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    document.getElementById('output').innerText = 'Error: ' + error.message;
+                });
+        }
+    </script>
 </head>
+
 <body>
-hello
+    hello<br>
+    <button onclick="fetchData()">Get API Data</button>
+    資料: <span id="output"></span>
 </body>
+
 </html>
