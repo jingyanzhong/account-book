@@ -5,8 +5,8 @@ import { useIsActiveStore } from '@/stores/isActive';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue'
 const menuShowStore = useMenuShowStore();
-const { menuToggle, menuClose } = menuShowStore;
-const { showMenu } = storeToRefs(menuShowStore);
+const { menuToggle, menuClose, maskToggle } = menuShowStore;
+const { showMenu, showMask } = storeToRefs(menuShowStore);
 
 const isActiveStore = useIsActiveStore();
 const { navActive, getPath } = isActiveStore;
@@ -27,9 +27,8 @@ onMounted(() => {
       <img src="./assets/img/tree-icon-green.png" alt="logo">
       Account Book
     </h1>
-    <button type="button" id="menuToggle" @click="menuToggle"></button>
+    <button type="button" id="menuToggle" @click="menuToggle(); maskToggle()"></button>
   </header>
-  <div class="menu-mask"></div>
   <div id="menu" :class="{'active' : showMenu}">
       <div class="menu-content">
           <ul class="menu-list">
@@ -48,6 +47,7 @@ onMounted(() => {
       <RouterView />
 
     </div>
+    <div class="menu-mask" :class="{'active' : showMask}"></div>
 </template>
 
 <style scoped>

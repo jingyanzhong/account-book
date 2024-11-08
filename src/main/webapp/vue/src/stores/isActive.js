@@ -3,11 +3,14 @@ import { defineStore } from 'pinia'
 import { useRoute } from 'vue-router'
 
 export const useIsActiveStore = defineStore('isActive', () => {
+  // 當前menu選單名稱
   const isActive = ref('')
   const route = useRoute()
   function navActive (active) {
     isActive.value = active
   }
+
+  // 判斷當前路由位置
   function getPath () {
     const curPath = route.path
     switch (curPath) {

@@ -1,0 +1,137 @@
+.model {
+    display: none;
+    max-width: 644px;
+    width: 100%;
+    height: 639px;
+    background: $white-color;
+    border-radius: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    padding: 48px;
+    @include mobile {
+        max-width: 335px;
+        height: auto;
+        border-radius: 8px;
+        padding: 24px;
+    }
+    &.active {
+        display: flex;
+        flex-direction: column;
+    }
+    .header {
+        margin-bottom: 24px;
+        h3 {
+            font-size: 24px;
+            text-align: center;
+            span {
+                display: block;
+                font-size: 20px;
+                font-weight: bold;
+                color: $gray-color;
+                margin-top: 8px;
+            }
+            @include mobile {
+                font-size: 20px;
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    .body {
+        .input_group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .input_item {
+            width: calc(50% - 12px);
+            &.w-100 {
+                width: 100%;
+            }
+            input, select {
+                width: 100%;
+                margin-top: 8px;
+                padding: 16px;
+                border-radius: 16px;
+                border: 1px solid $gray-color;
+                font-size: 18px;
+                @include mobile {
+                    padding: 8px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                }
+            }
+            .amount_input {
+                position: relative;
+                &:before {
+                    content: '$';
+                    width: 8px;
+                    height: 8px;
+                    display: block;
+                    position: absolute;
+                    top: 42px;
+                    left: 16px;
+                    font-size: 20px;
+                    @include mobile {
+                        top: 35px;
+                        left: 10px;
+                        font-size: 16px;
+                    }
+                }
+                input {
+                    padding: 16px 16px 16px 30px;
+                    @include mobile {
+                        padding: 8px 8px 8px 22px;
+                    }
+                }
+            }
+        }
+    }
+    .btn-group {
+        display: flex;
+        margin-top: auto;
+        @include mobile {
+            margin-top: 16px;
+        }
+    }
+    .cancel, .add, .del {
+        display: block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 20px;
+        color: $white-color;
+        @include mobile {
+            font-size: 16px;
+        }
+    }
+    .cancel {
+        background: $gray-color;
+        margin-left: auto;
+        margin-right: 16px;
+    }
+    .add {
+        background: $btn-primary;
+    }
+    .del {
+        background: $btn-danger;
+    }
+}
+
+.delModel {
+    max-width: 480px;
+    height: auto;
+    .body {
+        font-size: 18px;
+        p {
+            margin-bottom: 16px;
+            &:nth-child(1){
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+    }
+}
