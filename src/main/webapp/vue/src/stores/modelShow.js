@@ -2,7 +2,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useModelShowStore = defineStore('model-show', () => {
-  // show 新增、 model
+  const isNew = ref(true)
+  // show 新增 model
   const showModel = ref(false)
   function isShowModel (bool) {
     showModel.value = bool
@@ -25,5 +26,5 @@ export const useModelShowStore = defineStore('model-show', () => {
     showMask.value = bool
   }
 
-  return { showModel, showMask, isShowModel, isShowMask, showDelModel, isShowDelModel }
+  return { showModel, showMask, isShowModel, isShowMask, showDelModel, isShowDelModel, isNew }
 })

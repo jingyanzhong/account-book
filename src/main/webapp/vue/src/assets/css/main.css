@@ -639,4 +639,42 @@ h2 span {
   .page .pagination .page-link {
     font-size: 16px;
   }
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.report_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .report_content {
+    flex-direction: column;
+  }
+}
+.report_content h3 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 60px;
+}
+.report_content > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(50% - 16px);
+  height: 100%;
+}
+@media (max-width: 767px) {
+  .report_content > div {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .report_content .income {
+    margin-bottom: 36px;
+  }
 }/*# sourceMappingURL=main.css.map */

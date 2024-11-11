@@ -1,0 +1,33 @@
+.title {
+    margin-bottom: 24px;
+}
+.report_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include mobile {
+        flex-direction: column;
+    }
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 60px;
+    }
+    & > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: calc(50% - 16px);
+        height: 100%;
+        @include mobile {
+            width: 100%;
+        }
+    }
+    .income {
+        @include mobile {
+            margin-bottom: 36px;
+
+        }
+    }
+}

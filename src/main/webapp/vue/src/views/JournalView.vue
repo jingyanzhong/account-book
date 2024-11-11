@@ -6,14 +6,22 @@ import { useModelShowStore } from '@/stores/modelShow';
 import { storeToRefs } from 'pinia';
 const ModelShowStore = useModelShowStore();
 const { isShowModel, isShowMask, isShowDelModel } = ModelShowStore;
-const { showMask } = storeToRefs(ModelShowStore)
+const { showMask, isNew } = storeToRefs(ModelShowStore)
 
-const isNew = ref(true)
+const tempList = ref({})
 function openModel(bool) {
-    if(bool){
-        isNew.value = bool
-    }else {
-        isNew.value = bool
+    isNew.value = bool
+    if(bool) {
+        tempList.value = {}
+    } else {
+        tempList.value = {account:"jingyan",
+                    amount: 10,
+                    credit: "現金",
+                    date: "2024-11-14",
+                    debit: "早餐",
+                    item: "123",
+                    place: "123"
+                }
     }
     isShowMask(true); 
     isShowModel(true)
@@ -22,6 +30,25 @@ function openModel(bool) {
 function openDelModel() {
     isShowMask(true); 
     isShowDelModel(true);
+}
+
+function updateList(item) {
+    let url = '';
+    let itemArr = item.value;
+    console.log(itemArr);
+    // axios.post(url, itemArr)
+    // .then((res) => {
+    //     console.log(res); 
+    // })
+    // .catch((err) => {
+    //     console.log(err);
+    // })
+}
+
+function editList(item) {
+    let itemArr = item.value;
+    console.log(itemArr);
+    
 }
 </script>
 <template>
@@ -120,6 +147,9 @@ function openDelModel() {
     </div>
 </div>
 <div class="mask" :class="{'active' : showMask}"></div>
-<Model />
+<Model
+:list="tempList"
+@update-list="updateList"
+@edit-list="editList"></Model>
 <DelModel />
 </template>
