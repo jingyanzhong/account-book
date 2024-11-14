@@ -49,21 +49,12 @@
         }
     }
     .edit, .del {
+        border-radius: 0;
         padding: 8px;
         color: $white-color;
         font-size: 16px;
     }
-    .edit {
-        background: $btn-primary;
-        transition: background .5s;
-        margin-right: 8px;
-        &:hover {
-            background: $btn-primary-hover;
-        }
-    }
-    .del {
-        background: $btn-danger;
-    }
+
     .reset-btn {
         button {
             background: none;

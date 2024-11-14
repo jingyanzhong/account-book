@@ -1,0 +1,65 @@
+.container-subject {
+    max-width: 885px;
+}
+.subject_content {
+    display: flex;
+}
+.subject-btn {
+    color: #000;
+    background: #d9d9d9;
+    margin-right: 16px;
+    border-radius: 8px 8px 0 0;
+    transition: all .5s;
+    &:hover, &.active {
+        background: $white-color;
+    }
+}
+.add_subject {
+    padding: 24px;
+    background: $white-color;
+    max-width: 377px;
+    width: 100%;
+    // max-height: 326px;
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+    .input_item {
+        margin-bottom: 16px;
+        input {
+            width: 100%;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 16px;
+        }
+    }
+}
+.subject_table {
+    margin-left: 48px;
+    max-width: 460px;
+    width: 100%;
+    background: $white-color;
+    padding: 16px;
+    .edit, .del {
+        border-radius: 0;
+        padding: 8px;
+        font-size: 16px;
+    }
+    .edit {
+        margin-left: auto;
+    }
+    table {
+        width: 100%;
+        text-align: center;
+        tr {
+            border-bottom: 1px solid $gray-color;
+        }
+        th, td {
+            padding: 16px 0;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+    }
+}

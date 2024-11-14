@@ -89,6 +89,7 @@ header {
             height: 32px;
             border: none;
             background: $primary-color;
+            padding: 6px;
             &:before, &:after {
                 content: '';
                 display: block;

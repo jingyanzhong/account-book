@@ -15,8 +15,63 @@ color: #000;
 button {
     cursor: pointer;
     border: none;
+    display: block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 20px;
+    color: $white-color;
+    @include mobile {
+        font-size: 16px;
+    }
 }
 
+input, select {
+    border: 1px solid $gray-color;
+    border-radius: 8px;
+    padding: 16px;
+}
 .color-danger {
     color: $danger-color;
+}
+
+.btn-group {
+    display: flex;
+    margin-top: auto;
+    @include mobile {
+        margin-top: 16px;
+    }
+}
+
+.cancel {
+    background: $gray-color;
+    margin-left: auto;
+    margin-right: 16px;
+}
+.add {
+    background: $btn-primary;
+}
+.del {
+    background: $btn-danger;
+}
+.edit {
+    background: $btn-primary;
+    transition: background .5s;
+    margin-right: 8px;
+    &:hover {
+        background: $btn-primary-hover;
+    }
+}
+// 表單驗證style
+input, select {
+   margin-bottom: 8px;
+}
+input.is-invalid,  input.is-invalid:focus-visible{
+    border: 1px solid $danger-color;
+    outline: none;
+}
+.invalid-feedback, .form-error {
+    display: block;
+    margin-top: 8px;
+    color: $danger-color;
+    font-weight: bold;
 }

@@ -14,7 +14,8 @@ function openModel(bool) {
     if(bool) {
         tempList.value = {}
     } else {
-        tempList.value = {account:"jingyan",
+        tempList.value = {id: 1001,
+            account:"jingyan",
                     amount: 10,
                     credit: "現金",
                     date: "2024-11-14",
@@ -34,8 +35,8 @@ function openDelModel() {
 
 function updateList(item) {
     let url = '';
-    let itemArr = item.value;
-    console.log(itemArr);
+    let itemArr = item;
+    console.log('add',itemArr);
     // axios.post(url, itemArr)
     // .then((res) => {
     //     console.log(res); 
@@ -46,8 +47,8 @@ function updateList(item) {
 }
 
 function editList(item) {
-    let itemArr = item.value;
-    console.log(itemArr);
+    let itemArr = item;
+    console.log('e',itemArr);
     
 }
 </script>
@@ -65,6 +66,7 @@ function editList(item) {
             <table class="cash_list">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Date</th>
                         <th>Debit</th>
                         <th>Credit</th>
@@ -76,6 +78,7 @@ function editList(item) {
                         <th>operate</th>
                     </tr>
                     <tr class="search">
+                        <td></td>
                         <td>
                             <input type="date" name="" id="">
                             <br>
@@ -109,6 +112,7 @@ function editList(item) {
                 </thead>
             <tbody>
                 <tr>
+                    <td>1001</td>
                     <td>2024-11-07</td>
                     <td>早餐</td>
                     <td>現金</td>
@@ -118,12 +122,14 @@ function editList(item) {
                     <td>Jingyan</td>
                     <td>2024-11-07 <br> 17:57</td>
                     <td>
-                        <button class="edit"@click="openModel(false)">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button class="del" @click="openDelModel">
-                            <span class="material-symbols-outlined">delete</span>
-                        </button>
+                        <div class="btn-group">
+                            <button class="edit"@click="openModel(false)">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button class="del" @click="openDelModel">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
