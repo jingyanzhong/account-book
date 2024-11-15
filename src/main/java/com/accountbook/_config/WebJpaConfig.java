@@ -63,7 +63,7 @@ public class WebJpaConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan(new String[] { "com.canox.adms.model.po" }); // scan entity
+        factory.setPackagesToScan(new String[] { "com.accountbook.model.po" }); // scan entity
         factory.setDataSource(dataSource);
         factory.setJpaProperties(properties);
         factory.setPersistenceUnitName(DEFAULT_ENTITY_MANAGER);
