@@ -1,82 +1,88 @@
 .cash_content {
-    @include pad {
-        width: 100%;
-        overflow-x: scroll;
-    }
+  @include pad {
+    width: 100%;
+    overflow-x: scroll;
+  }
 }
 .cash_list {
+  width: 100%;
+  margin-top: 42px;
+  margin-bottom: 40px;
+  background: $white-color;
+  @include pad {
+    margin-top: 30px;
+    width: 960px;
+  }
+  thead {
+    .search {
+      input,
+      select {
+        border: 1px solid $gray-color;
+        padding: 10px 16px;
+        margin-bottom: 0;
+      }
+    }
+  }
+  thead,
+  tbody {
     width: 100%;
-    margin-top: 42px;
-    margin-bottom: 40px;
-    background: $white-color;
-    @include pad {
-        margin-top: 30px;
-        width: 960px;
+    tr {
+      border-bottom: 1px solid $gray-color;
     }
-    thead {
-        .search {
-            td {
-                vertical-align: top;
-            }
-            input, select {
-                border: 1px solid $gray-color;
-                padding: 10px 16px;
-                margin-bottom: 10px;
-            }
-        }
+    th {
+      font-weight: bold;
     }
-    thead, tbody {
-        width: 100%;
-        tr {
-            border-bottom: 1px solid $gray-color;
-        }
-        th {
-            font-weight: bold;
-        }
-        th, td {
-            padding: 16px 0;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 1.5;
-            font-size: 16px;
-        }
+    th,
+    td {
+      padding: 16px 0;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.5;
+      font-size: 16px;
     }
-    .pad-width-m {
-        input {
-            @include pad {
-                max-width: 120px;
-            }
-        }
+  }
+  .pad-width-m {
+    input {
+      @include pad {
+        max-width: 120px;
+      }
     }
-    .edit, .del {
-        border-radius: 0;
-        padding: 8px;
-        color: $white-color;
-        font-size: 16px;
-    }
+  }
+  .edit,
+  .del {
+    border-radius: 0;
+    padding: 8px;
+    color: $white-color;
+    font-size: 16px;
+  }
 
-    .reset-btn {
-        button {
-            background: none;
-        }
+  .reset-btn {
+    button {
+      background: none;
+      color: #000;
     }
+  }
+  .btn-group {
+    justify-content: center;
+  }
 }
 
 .page {
+  display: flex;
+  justify-content: center;
+  .pagination {
     display: flex;
-    justify-content: center;
-    .pagination {
-        display: flex;
-        align-items: center;
-        .page-link {
-            padding: 16px;
-            font-size: 20px;
-            &:hover, &.active {
-                color: $primary-color;
-            }
-            @include mobile {
-                font-size: 16px;
-            }
-        }
+    align-items: center;
+    .page-link {
+      padding: 16px;
+      font-size: 20px;
+      &:hover,
+      &.active {
+        color: $primary-color;
+      }
+      @include mobile {
+        font-size: 16px;
+      }
     }
+  }
 }

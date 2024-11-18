@@ -56,7 +56,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
@@ -74,6 +76,13 @@ button {
   border-radius: 8px;
   font-size: 20px;
   color: #fff;
+  transition: all 0.5s;
+}
+button:disabled {
+  background: #B3B3B3;
+}
+button:disabled:hover {
+  background: #B3B3B3;
 }
 @media (max-width: 767px) {
   button {
@@ -81,7 +90,8 @@ button {
   }
 }
 
-input, select {
+input,
+select {
   border: 1px solid #B3B3B3;
   border-radius: 8px;
   padding: 16px;
@@ -106,13 +116,22 @@ input, select {
   margin-left: auto;
   margin-right: 16px;
 }
+.cancel:hover {
+  background: #9b9b9b;
+}
 
 .add {
   background: #72BFFF;
 }
+.add:hover {
+  background: #4C9CDD;
+}
 
 .del {
   background: #FF4747;
+}
+.del:hover {
+  background: #e03636;
 }
 
 .edit {
@@ -124,16 +143,19 @@ input, select {
   background: #4C9CDD;
 }
 
-input, select {
+input,
+select {
   margin-bottom: 8px;
 }
 
-input.is-invalid, input.is-invalid:focus-visible {
+input.is-invalid,
+input.is-invalid:focus-visible {
   border: 1px solid #FF4747;
   outline: none;
 }
 
-.invalid-feedback, .form-error {
+.invalid-feedback,
+.form-error {
   display: block;
   margin-top: 8px;
   color: #FF4747;
@@ -391,7 +413,6 @@ h2 span {
   display: none;
   max-width: 644px;
   width: 100%;
-  min-height: 639px;
   background: #fff;
   border-radius: 16px;
   position: absolute;
@@ -446,13 +467,15 @@ h2 span {
 .model .body .input_item.w-100 {
   width: 100%;
 }
-.model .body .input_item input, .model .body .input_item select {
+.model .body .input_item input,
+.model .body .input_item select {
   width: 100%;
   margin-top: 8px;
   font-size: 18px;
 }
 @media (max-width: 767px) {
-  .model .body .input_item input, .model .body .input_item select {
+  .model .body .input_item input,
+  .model .body .input_item select {
     padding: 8px;
     font-size: 16px;
     border-radius: 8px;
@@ -489,6 +512,7 @@ h2 span {
 
 .delModel {
   max-width: 480px;
+  min-height: 284px;
   height: auto;
 }
 .delModel .body {
@@ -602,24 +626,28 @@ h2 span {
     width: 960px;
   }
 }
-.cash_list thead .search td {
-  vertical-align: top;
-}
-.cash_list thead .search input, .cash_list thead .search select {
+.cash_list thead .search input,
+.cash_list thead .search select {
   border: 1px solid #B3B3B3;
   padding: 10px 16px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
-.cash_list thead, .cash_list tbody {
+.cash_list thead,
+.cash_list tbody {
   width: 100%;
 }
-.cash_list thead tr, .cash_list tbody tr {
+.cash_list thead tr,
+.cash_list tbody tr {
   border-bottom: 1px solid #B3B3B3;
 }
-.cash_list thead th, .cash_list tbody th {
+.cash_list thead th,
+.cash_list tbody th {
   font-weight: bold;
 }
-.cash_list thead th, .cash_list thead td, .cash_list tbody th, .cash_list tbody td {
+.cash_list thead th,
+.cash_list thead td,
+.cash_list tbody th,
+.cash_list tbody td {
   padding: 16px 0;
   text-align: center;
   vertical-align: middle;
@@ -631,7 +659,8 @@ h2 span {
     max-width: 120px;
   }
 }
-.cash_list .edit, .cash_list .del {
+.cash_list .edit,
+.cash_list .del {
   border-radius: 0;
   padding: 8px;
   color: #fff;
@@ -639,6 +668,10 @@ h2 span {
 }
 .cash_list .reset-btn button {
   background: none;
+  color: #000;
+}
+.cash_list .btn-group {
+  justify-content: center;
 }
 
 .page {
