@@ -1,6 +1,7 @@
 package com.accountbook.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.accountbook.model.dto.Subject;
 
@@ -14,5 +15,8 @@ public interface SubjectRepository {
 
     /** 取得 所有會計科目 */
     List<Subject> findAll();
+
+    /** 取得 某會計科目 */
+    Optional<Subject> findByCode(String code);
 
 }

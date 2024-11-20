@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,37 +19,38 @@ import javax.persistence.TemporalType;
  * @since 2024/11/14
  */
 @Entity
-@Table(name = "JOURNAL_RECORD")
+@Table(name = "journal_record")
 public class JournalRecordPo {
 
     /** 日記帳檔流水號 */
     @Id
-    @Column(name = "JOURNAL_RECORD_KEY")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "journal_record_key", updatable = false, nullable = false)
     private Long journalRecordKey;
 
     /** 交易時間 */
-    @Column(name = "TX_TIME", updatable = false)
+    @Column(name = "tx_time", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar txTime;
 
     /** 借項 */
-    @Column(name = "DEBIT")
+    @Column(name = "debit")
     private String debit;
 
     /** 貸項 */
-    @Column(name = "CREDIT")
+    @Column(name = "credit")
     private String credit;
 
     /** 金額 */
-    @Column(name = "AMOUNT")
+    @Column(name = "amount")
     private BigDecimal amount;
 
     /** 摘要 */
-    @Column(name = "MEMO")
+    @Column(name = "memo")
     private String memo;
 
     /** 建立時間 */
-    @Column(name = "CREATE_TIME", insertable = false, updatable = false)
+    @Column(name = "create_time", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar createTime;
 

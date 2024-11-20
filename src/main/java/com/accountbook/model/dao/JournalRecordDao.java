@@ -15,6 +15,9 @@ import com.accountbook.model.po.JournalRecordPo;
  */
 public interface JournalRecordDao extends JpaRepository<JournalRecordPo, Long> {
 
+    /** 取得 某一筆字記帳紀錄 */
+    JournalRecordPo findByJournalRecordKey(Long key);
+
     /** 取得 某期間的日記帳紀錄 */
     List<JournalRecordPo> findByTxTimeBetween(Calendar startCalendar, Calendar endedCalendar);
 

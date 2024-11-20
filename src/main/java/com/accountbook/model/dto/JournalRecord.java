@@ -3,6 +3,7 @@ package com.accountbook.model.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * [DTO]
@@ -11,6 +12,9 @@ import java.util.Objects;
  * @since 2024/11/14
  */
 public class JournalRecord {
+
+    /** 流水號 */
+    private Long key;
 
     /** 交易時間 */
     private final LocalDateTime txTime;
@@ -27,8 +31,10 @@ public class JournalRecord {
     /** 摘要 */
     private final String memo;
 
-    private JournalRecord(LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount, String memo) {
+    private JournalRecord(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
+            String memo) {
         super();
+        this.key = key;
         this.txTime = Objects.requireNonNull(txTime, "交易時間 must not be null.");
         this.debit = Objects.requireNonNull(debit, "借項 must not be null.");
         this.credit = Objects.requireNonNull(credit, "貸項 must not be null.");
@@ -36,8 +42,26 @@ public class JournalRecord {
         this.memo = Objects.requireNonNull(memo, "摘要 must not be null.");
     }
 
-    public static JournalRecord of(LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount, String memo) {
-        return new JournalRecord(txTime, debit, credit, amount, memo);
+    /** 新增紀錄 */
+    public static JournalRecord ofNew(LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
+            String memo) {
+        return new JournalRecord(null, txTime, debit, credit, amount, memo);
+    }
+
+    /** 更新紀錄 */
+    public static JournalRecord ofModify(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
+            String memo) {
+        return new JournalRecord(key, txTime, debit, credit, amount, memo);
+    }
+
+    /** 讀取紀錄 */
+    public static JournalRecord ofRead(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
+            String memo) {
+        return new JournalRecord(key, txTime, debit, credit, amount, memo);
+    }
+
+    public Optional<Long> getKey() {
+        return Optional.ofNullable(key);
     }
 
     public LocalDateTime getTxTime() {
