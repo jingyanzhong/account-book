@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accountbook.controller.base.ApiController;
 import com.accountbook.exception.JournalRecordException;
 import com.accountbook.model.dto.JournalRecord;
+import com.accountbook.model.dto.ViewJournalRecordYearMonth;
 import com.accountbook.model.vo.JsonJournalRecord;
+import com.accountbook.model.vo.JsonViewJournalRecordYearMonth;
 import com.accountbook.model.vo.req.JournalRecordReqAdd;
 import com.accountbook.model.vo.req.JournalRecordReqModify;
 import com.accountbook.model.vo.req.JournalRecordReqRemove;
@@ -166,6 +168,28 @@ public class JournalRecordController extends ApiController {
                     .map(JsonJournalRecord::of)
                     .collect(Collectors.toList());
             return Resp.ofSuccess(jsonJournalRecords);
+
+        } catch (Exception e) {
+            return Resp.ofQueryException(e);
+        }
+    }
+
+    /**
+     * [查 日記帳年月資料]
+     * 
+     * @author cano.su
+     * @since 2024/11/21
+     * @return 回應
+     */
+    @PostMapping("/list/yearMonth")
+    public String findYearMonthByJournalRecord() {
+        try {
+            final List<ViewJournalRecordYearMonth> viewJournalRecordYearMonths = journalRecordService.listYearMonth();
+            final List<JsonViewJournalRecordYearMonth> jsonViewJournalRecordYearMonths = viewJournalRecordYearMonths
+                    .stream()
+                    .map(JsonViewJournalRecordYearMonth::of)
+                    .collect(Collectors.toList());
+            return Resp.ofSuccess(jsonViewJournalRecordYearMonths);
 
         } catch (Exception e) {
             return Resp.ofQueryException(e);

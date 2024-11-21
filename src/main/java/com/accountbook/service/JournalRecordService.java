@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.accountbook.exception.JournalRecordException;
 import com.accountbook.model.dto.JournalRecord;
+import com.accountbook.model.dto.ViewJournalRecordYearMonth;
 import com.accountbook.model.vo.req.JournalRecordReqAdd;
 import com.accountbook.model.vo.req.JournalRecordReqModify;
 import com.accountbook.model.vo.req.JournalRecordReqRemove;
@@ -20,6 +21,7 @@ import com.accountbook.model.vo.req.validator.JournalRecordReqRemoveValidator;
 import com.accountbook.model.vo.req.validator.JournalRecordReqValidatorLib;
 import com.accountbook.repository.JournalRecordRepository;
 import com.accountbook.repository.SubjectRepository;
+import com.accountbook.repository.ViewJournalRecordYearMonthRepository;
 import com.accountbook.utils.TimeUtils;
 
 /**
@@ -36,6 +38,9 @@ public class JournalRecordService {
 
     @Autowired
     private JournalRecordRepository journalRecordRepository;
+
+    @Autowired
+    private ViewJournalRecordYearMonthRepository viewJournalRecordYearMonthRepository;
 
     /**
      * [新增 日記帳紀錄]
@@ -146,6 +151,22 @@ public class JournalRecordService {
             final YearMonth yearMonth = req.getYearMonth();
             return journalRecordRepository.findByYearMonth(yearMonth);
 
+        } catch (Exception e) {
+            throw JournalRecordException.ofQueryValidError();
+        }
+    }
+
+    /**
+     * [取得 日記帳年月資料]
+     * 
+     * @author cano.su
+     * @since 2024/11/21
+     * @return 日記帳年月資料
+     * @throws JournalRecordException
+     */
+    public List<ViewJournalRecordYearMonth> listYearMonth() throws JournalRecordException {
+        try {
+            return viewJournalRecordYearMonthRepository.findAll();
         } catch (Exception e) {
             throw JournalRecordException.ofQueryValidError();
         }
