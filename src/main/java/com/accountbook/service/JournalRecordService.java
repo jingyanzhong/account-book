@@ -121,9 +121,14 @@ public class JournalRecordService {
      * @author cano.su
      * @since 2024/11/21
      * @return
+     * @throws JournalRecordException
      */
-    public List<JournalRecord> findAll() {
-        return journalRecordRepository.findAll();
+    public List<JournalRecord> findAll() throws JournalRecordException {
+        try {
+            return journalRecordRepository.findAll();
+        } catch (Exception e) {
+            throw JournalRecordException.ofQueryValidError();
+        }
     }
 
     /**
@@ -133,12 +138,17 @@ public class JournalRecordService {
      * @since 2024/11/15
      * @param yearMonth 年月
      * @return 日記帳資料
-     * @throws JournalRecordException 
+     * @throws JournalRecordException
      */
     public List<JournalRecord> findByYearMonth(JournalRecordReqYearMonth req) throws JournalRecordException {
-        Objects.requireNonNull(req, "YearMonth 日記帳資料 API 請求 must not be null.");
-        final YearMonth yearMonth = req.getYearMonth();
-        return journalRecordRepository.findByYearMonth(yearMonth);
+        try {
+            Objects.requireNonNull(req, "YearMonth 日記帳資料 API 請求 must not be null.");
+            final YearMonth yearMonth = req.getYearMonth();
+            return journalRecordRepository.findByYearMonth(yearMonth);
+
+        } catch (Exception e) {
+            throw JournalRecordException.ofQueryValidError();
+        }
     }
 
 }
