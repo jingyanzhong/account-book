@@ -34,18 +34,6 @@ public class JsonTime {
         return new JsonTime(time);
     }
 
-    public String getYear() {
-        return time.getYear() + "";
-    }
-
-    public String getMonth() {
-        return time.getMonthValue() + "";
-    }
-
-    public String getDay() {
-        return time.getDayOfMonth() + "";
-    }
-
     public String getDate() {
         return time.format(TimeUtils.FORMAT_DATETIMEFORMATTER_YYYYMMDD);
     }

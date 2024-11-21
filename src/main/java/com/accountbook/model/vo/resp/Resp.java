@@ -55,6 +55,12 @@ public class Resp {
         return new Resp(RespStatus._Q01, null).toJson();
     }
 
+    /** [Q02]查詢異常 */
+    public static String ofQueryException(Throwable throwable) {
+        logger.error(throwable.getMessage(), throwable);
+        return new Resp(RespStatus._Q02, throwable.getMessage()).toJson();
+    }
+
     /** [A02]更新異常 */
     public static String ofModifyException(Throwable throwable) {
         logger.error(throwable.getMessage(), throwable);
@@ -62,7 +68,7 @@ public class Resp {
     }
 
     /** [R02]移除異常 */
-    public static String ofRemoveModifyException(Throwable throwable) {
+    public static String ofRemoveException(Throwable throwable) {
         logger.error(throwable.getMessage(), throwable);
         return new Resp(RespStatus._R01, throwable.getMessage()).toJson();
     }

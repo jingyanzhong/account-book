@@ -41,6 +41,7 @@ public class JsonJournalRecord implements JsonVo<JournalRecord> {
     public static JsonJournalRecord of(JournalRecord dto) {
         return new JsonJournalRecord()
                 .setKey(dto.getKey().orElse(null))
+                .setTxTime(JsonTime.of(dto.getTxTime()))
                 .setDebit(JsonSubject.of(dto.getDebit()))
                 .setCredit(JsonSubject.of(dto.getCredit()))
                 .setAmount(dto.getAmount())

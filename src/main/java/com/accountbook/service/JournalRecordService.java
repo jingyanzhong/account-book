@@ -13,6 +13,7 @@ import com.accountbook.model.dto.JournalRecord;
 import com.accountbook.model.vo.req.JournalRecordReqAdd;
 import com.accountbook.model.vo.req.JournalRecordReqModify;
 import com.accountbook.model.vo.req.JournalRecordReqRemove;
+import com.accountbook.model.vo.req.JournalRecordReqYearMonth;
 import com.accountbook.model.vo.req.validator.JournalRecordReqAddValidator;
 import com.accountbook.model.vo.req.validator.JournalRecordReqModifyValidator;
 import com.accountbook.model.vo.req.validator.JournalRecordReqRemoveValidator;
@@ -94,7 +95,7 @@ public class JournalRecordService {
             validator.valid(lib, req);
         }
         journalRecordRepository.remove(req.getKey());
-        
+
     }
 
     /**
@@ -115,15 +116,29 @@ public class JournalRecordService {
     }
 
     /**
+     * [取得 所有日記帳紀錄]
+     * 
+     * @author cano.su
+     * @since 2024/11/21
+     * @return
+     */
+    public List<JournalRecord> findAll() {
+        return journalRecordRepository.findAll();
+    }
+
+    /**
      * [取得 某年月日記帳紀錄]
      * 
      * @author cano.su
      * @since 2024/11/15
      * @param yearMonth 年月
-     * @return
+     * @return 日記帳資料
+     * @throws JournalRecordException 
      */
-    public List<JournalRecord> findByYearMonth(YearMonth yearMonth) {
-        Objects.requireNonNull(yearMonth, "年月 must not be null.");
+    public List<JournalRecord> findByYearMonth(JournalRecordReqYearMonth req) throws JournalRecordException {
+        Objects.requireNonNull(req, "YearMonth 日記帳資料 API 請求 must not be null.");
+        final YearMonth yearMonth = req.getYearMonth();
         return journalRecordRepository.findByYearMonth(yearMonth);
     }
+
 }

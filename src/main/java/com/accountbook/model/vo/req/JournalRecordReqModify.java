@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @since 2024/11/19
  */
 public class JournalRecordReqModify implements JournalRecordReqBase {
-    
+
     /** 日記帳流水號 */
     private Long key;
 

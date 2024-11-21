@@ -1,5 +1,8 @@
 package com.accountbook.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import com.accountbook.model.vo.JsonJournalRecord;
 import com.accountbook.model.vo.req.JournalRecordReqAdd;
 import com.accountbook.model.vo.req.JournalRecordReqModify;
 import com.accountbook.model.vo.req.JournalRecordReqRemove;
+import com.accountbook.model.vo.req.JournalRecordReqYearMonth;
 import com.accountbook.model.vo.resp.Resp;
 import com.accountbook.service.JournalRecordService;
 
@@ -118,10 +122,53 @@ public class JournalRecordController extends ApiController {
             return Resp.ofSuccess();
 
         } catch (JournalRecordException e) {
-            return Resp.ofRemoveModifyException(e);
+            return Resp.ofRemoveException(e);
 
         } catch (Exception e) {
             return Resp.ofException(e);
+        }
+    }
+
+    /**
+     * [查 全部日記帳資料]
+     * 
+     * @author cano.su
+     * @since 2024/11/21
+     * @return 回應
+     */
+    @PostMapping("/findAll")
+    public String findAll() {
+        try {
+            final List<JournalRecord> journalRecords = journalRecordService.findAll();
+            final List<JsonJournalRecord> jsonJournalRecords = journalRecords.stream()
+                    .map(JsonJournalRecord::of)
+                    .collect(Collectors.toList());
+            return Resp.ofSuccess(jsonJournalRecords);
+
+        } catch (Exception e) {
+            return Resp.ofQueryException(e);
+        }
+    }
+
+    /**
+     * [查 某年月日記帳紀錄]
+     * 
+     * @author cano.su
+     * @since 2024/11/21
+     * @param req 日記帳資料 API 請求
+     * @return 回應
+     */
+    @PostMapping("/findByYearMonth")
+    public String findByYearMonth(JournalRecordReqYearMonth req) {
+        try {
+            final List<JournalRecord> journalRecords = journalRecordService.findByYearMonth(req);
+            final List<JsonJournalRecord> jsonJournalRecords = journalRecords.stream()
+                    .map(JsonJournalRecord::of)
+                    .collect(Collectors.toList());
+            return Resp.ofSuccess(jsonJournalRecords);
+
+        } catch (Exception e) {
+            return Resp.ofQueryException(e);
         }
     }
 

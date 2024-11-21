@@ -57,6 +57,14 @@ public class JournalRecordRepositoryImpl implements JournalRecordRepository {
     }
 
     @Override
+    public List<JournalRecord> findAll() {
+        final List<JournalRecordPo> pos = journalRecordDao.findAll();
+        return pos.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<JournalRecord> findByYearMonth(YearMonth yearMonth) {
         Objects.requireNonNull(yearMonth, "年月 must not be null.");
         final Calendar time = TimeUtils.toCalendar(yearMonth);

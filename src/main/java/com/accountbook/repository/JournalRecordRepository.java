@@ -41,6 +41,9 @@ public interface JournalRecordRepository {
      */
     Optional<JournalRecord> findByKey(Long key);
 
+    /** 取得 所有日記帳資料 */
+    List<JournalRecord> findAll();
+
     /** 取得 日記帳資料 by 年月 */
     List<JournalRecord> findByYearMonth(YearMonth yearMonth);
 

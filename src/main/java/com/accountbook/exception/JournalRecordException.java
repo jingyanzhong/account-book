@@ -50,6 +50,11 @@ public class JournalRecordException extends Exception {
         return new JournalRecordException(JournalRecordExceptionType.QUERY_NOT_FOUND);
     }
 
+    /** 查詢時出現異常 */
+    public static JournalRecordException ofQueryValidError() {
+        return new JournalRecordException(JournalRecordExceptionType.QUERY_VALID_ERROR);
+    }
+
     /** 更新時出現異常 */
     public static JournalRecordException ofUpdateValidError(String message) {
         return new JournalRecordException(JournalRecordExceptionType.UPDATE_VALID_ERROR, message);
