@@ -1,94 +1,49 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
 import Model from '@/components/modelComponent.vue'
 import DelModel from '@/components/DeleteModel.vue'
-import { useModelShowStore } from '@/stores/modelShow'
+import pagination from '@/components/paginationComponent.vue'
 import { storeToRefs } from 'pinia'
+import { useModelShowStore } from '@/stores/modelShow'
 const ModelShowStore = useModelShowStore()
 const { isShowModel, isShowMask, isShowDelModel } = ModelShowStore
 const { showMask, isNew } = storeToRefs(ModelShowStore)
 
-const searchData = ref({
-  debit: '',
-  credit: '',
-  memo: '',
-  date: '',
-})
-const debitList = ref([])
-function getDebitData() {
-  const url = 'http://localhost:8080/account-book/api/subject/list'
-  axios.get(url).then((res) => {
-    debitList.value = res.data
-    console.log(debitList.value)
-  })
-}
+import { useJournalStore } from '@/stores/journal'
+const JournalStore = useJournalStore()
+const { findData, updateList, editList, delList } = JournalStore
+const { debitList, optionSort, journalData, allDate, currData } = storeToRefs(JournalStore)
 
-const data = ref({})
-function getData() {
-  let url = ''
-  // axios.get(url).then((res) => {
-  //   console.log(res.data)
-  // })
-}
-
-onMounted(() => {
-  getData()
-  getDebitData()
-})
+import { usePaginationStore } from '@/stores/pagination'
+const PaginationStore = usePaginationStore()
+const { initPage } = PaginationStore
+// const { pageTotal, currPage } = storeToRefs(PaginationStore)
 
 const tempList = ref({})
-function openModel(bool) {
+function openModel(bool, list) {
   isNew.value = bool
   if (bool) {
-    tempList.value = {}
-  } else {
     tempList.value = {
-      id: 1001,
-      account: 'jingyan',
-      amount: 10,
-      credit: '現金',
-      date: '2024-11-14',
-      debit: '早餐',
-      item: '123',
-      place: '123',
+      key: '',
+      amount: '',
+      credit: { code: '', name: '' },
+      debit: { code: '', name: '' },
+      memo: '',
+      txTime: { date: '', timePoint: '' },
     }
+  } else {
+    tempList.value = JSON.parse(JSON.stringify(list))
+    // console.log(tempList.value)
   }
   isShowMask(true)
   isShowModel(true)
 }
 
-function openDelModel() {
+const delKey = ref()
+function openDelModel(key) {
+  delKey.value = key
   isShowMask(true)
   isShowDelModel(true)
-}
-
-function updateList(item) {
-  let url = ''
-  let itemArr = item
-  console.log('add', itemArr)
-  // axios.post(url, itemArr)
-  // .then((res) => {
-  //     console.log(res);
-  // })
-  // .catch((err) => {
-  //     console.log(err);
-  // })
-}
-
-function editList(item) {
-  let itemArr = item
-  console.log('e', itemArr)
-}
-
-function delList() {
-  console.log('del')
-}
-
-function search(item) {
-  console.log(item)
-
-  console.log(searchData.value.debit)
 }
 </script>
 <template>
@@ -105,46 +60,43 @@ function search(item) {
         <table class="cash_list">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Date</th>
-              <th>Debit</th>
-              <th>Credit</th>
-              <th>Amount</th>
-              <th>MEMO</th>
-              <th>
+              <!-- <th>ID</th> -->
+              <th width="15%">Date</th>
+              <th width="10%">Debit</th>
+              <th width="10%">Credit</th>
+              <th width="15%">Amount</th>
+              <th width="20%">MEMO</th>
+              <th width="15%">
                 Time<br />
                 Modify
               </th>
-              <th>operate</th>
+              <th width="15%">operate</th>
             </tr>
             <tr class="search">
-              <td>
+              <!-- <td>
                 <div class="reset-btn">
                   <button type="button">
                     <span class="material-symbols-outlined">restart_alt</span>
                   </button>
                 </div>
-              </td>
+              </td> -->
               <td>
-                <input type="date" />
-              </td>
-              <td>
-                <select @change="search('debit')" v-model="searchData.debit">
-                  <option value="">請選擇...</option>
-                  <option v-for="item in debitList" :value="item.code" :key="item.code">
-                    {{ item.name }}
+                <select name="date" id="date" @change="initPage($event)" v-model="optionSort">
+                  <option
+                    v-for="(date, index) in allDate"
+                    :value="index"
+                    :key="index"
+                    :data-year="date.year"
+                    :data-month="date.month"
+                  >
+                    {{ date.year }}年{{ date.month }}月
                   </option>
                 </select>
               </td>
-              <td>
-                <select name="" id="">
-                  <option value="">請選擇...</option>
-                </select>
-              </td>
               <td></td>
-              <td>
-                <input type="text" placeholder="ex:飯..." />
-              </td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td class="pad-width-m"></td>
               <td></td>
               <td></td>
@@ -152,23 +104,20 @@ function search(item) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1001</td>
-              <td>2024-11-07</td>
-              <td>早餐</td>
-              <td>現金</td>
-              <td>30</td>
-              <td>7-11茶葉蛋</td>
-              <td>
-                2024-11-07 <br />
-                17:57
-              </td>
+            <tr v-for="item in currData" :key="item.key">
+              <!-- <td>{{ item.key }}</td> -->
+              <td>{{ item.txTime.date }}</td>
+              <td>{{ item.debit.name }}</td>
+              <td>{{ item.credit.name }}</td>
+              <td>{{ item.amount }}</td>
+              <td>{{ item.memo }}</td>
+              <td>{{ item.txTime.timePoint }}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="edit" @click="openModel(false)">
+                  <button type="button" class="edit" @click="openModel(false, item)">
                     <span class="material-symbols-outlined">edit</span>
                   </button>
-                  <button type="button" class="del" @click="openDelModel">
+                  <button type="button" class="del" @click="openDelModel(item.key)">
                     <span class="material-symbols-outlined">delete</span>
                   </button>
                 </div>
@@ -177,21 +126,7 @@ function search(item) {
           </tbody>
         </table>
       </div>
-      <nav class="page navigation">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <pagination></pagination>
     </div>
   </div>
   <div class="mask" :class="{ active: showMask }"></div>
@@ -201,5 +136,5 @@ function search(item) {
     @update-list="updateList"
     @edit-list="editList"
   ></Model>
-  <DelModel @del-list="delList"></DelModel>
+  <DelModel :del-key="delKey" @del-list="delList"></DelModel>
 </template>

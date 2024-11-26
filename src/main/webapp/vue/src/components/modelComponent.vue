@@ -1,11 +1,10 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useModelShowStore } from '@/stores/modelShow'
 import { storeToRefs } from 'pinia'
 const ModelShowStore = useModelShowStore()
 const { isShowModel, isShowMask } = ModelShowStore
 const { showModel, isNew } = storeToRefs(ModelShowStore)
-import axios from 'axios'
 const emit = defineEmits(['update-list', 'edit-list'])
 const props = defineProps({
   list: {
@@ -20,7 +19,8 @@ const props = defineProps({
 watch(
   () => props.list,
   (item) => {
-    cashItem.value = item
+    cashItem.value = JSON.parse(JSON.stringify(item))
+    initItem.value = JSON.parse(JSON.stringify(item))
   },
 )
 watch(
@@ -29,8 +29,16 @@ watch(
     debitItem.value = item
   },
 )
+const initItem = ref()
+const cashItem = ref({
+  key: '',
+  amount: '',
+  credit: { code: '', name: '' },
+  debit: { code: '', name: '' },
+  memo: '',
+  txTime: { date: '', timePoint: '' },
+})
 
-const cashItem = ref({})
 const debitItem = ref({})
 function updateItem(val, { resetForm }) {
   isShowMask(false)
@@ -43,6 +51,13 @@ function updateItem(val, { resetForm }) {
   }
   resetForm()
 }
+
+function cancel(resetForm) {
+  isShowMask(false)
+  isShowModel(false)
+  resetForm()
+  cashItem.value = JSON.parse(JSON.stringify(initItem.value))
+}
 </script>
 <template>
   <div class="model" :class="{ active: showModel }">
@@ -54,7 +69,7 @@ function updateItem(val, { resetForm }) {
       </h3>
     </div>
     <div class="body">
-      <v-form v-slot="{ errors, meta, resetForm }" @submit="updateItem">
+      <v-form v-slot="{ errors, meta, resetForm }" @submit="updateItem" ref="form">
         <div class="input_group">
           <div class="input_item">
             <label>
@@ -63,7 +78,7 @@ function updateItem(val, { resetForm }) {
                 type="date"
                 rules="required"
                 name="日期"
-                v-model="cashItem.date"
+                v-model="cashItem.txTime.date"
                 :disabled="!isNew"
                 :class="{ 'is-invalid': errors['日期'] }"
               ></v-field>
@@ -93,7 +108,7 @@ function updateItem(val, { resetForm }) {
                 as="select"
                 name="debit"
                 rules="required"
-                v-model="cashItem.debit"
+                v-model="cashItem.debit.code"
                 :class="{ 'is-invalid': errors.debit }"
               >
                 <option value="">請選擇...</option>
@@ -111,12 +126,13 @@ function updateItem(val, { resetForm }) {
                 as="select"
                 name="credit"
                 rules="required"
-                v-model="cashItem.credit"
+                v-model="cashItem.credit.code"
                 :class="{ 'is-invalid': errors.credit }"
               >
                 <option value="">請選擇...</option>
-                <option value="現金">現金</option>
-                <option value="信用卡">信用卡</option>
+                <option v-for="item in debitItem" :value="item.code" :key="item.code">
+                  {{ item.name }}
+                </option>
               </v-field>
               <error-message name="credit" class="invalid-feedback"></error-message>
             </label>
@@ -131,7 +147,7 @@ function updateItem(val, { resetForm }) {
                 name="MEMO"
                 rules="required|min:1"
                 placeholder="請輸入摘要..."
-                v-model="cashItem.item"
+                v-model="cashItem.memo"
                 :class="{ 'is-invalid': errors['MEMO'] }"
               ></v-field>
               <error-message name="MEMO" class="invalid-feedback"></error-message>
@@ -143,24 +159,18 @@ function updateItem(val, { resetForm }) {
               <v-field
                 type="number"
                 name="id"
-                rules="required|min:4|max:4"
-                placeholder="請輸入4位數字"
-                v-model="cashItem.id"
-                :disabled="!isNew"
+                rules="min:1|max:4"
+                placeholder="無須填寫，系統自動帶入"
+                v-model="cashItem.key"
                 :class="{ 'is-invalid': errors.id }"
+                disabled
               ></v-field>
               <error-message name="id" class="invalid-feedback"></error-message>
             </label>
           </div>
         </div>
         <div class="btn-group">
-          <button
-            type="button"
-            class="cancel"
-            @click="isShowMask(false), isShowModel(false), resetForm()"
-          >
-            取消
-          </button>
+          <button type="button" class="cancel" @click="cancel(resetForm)">取消</button>
           <button v-if="isNew" type="submit" class="add" :disabled="!meta.valid">新增</button>
           <button v-else type="submit" class="add" :disabled="!meta.valid">編輯</button>
         </div>

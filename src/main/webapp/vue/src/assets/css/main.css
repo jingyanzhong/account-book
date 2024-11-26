@@ -162,6 +162,10 @@ input.is-invalid:focus-visible {
   font-weight: bold;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 .content {
   padding-left: 200px;
   padding-top: 89px;

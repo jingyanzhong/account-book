@@ -97,3 +97,7 @@ input.is-invalid:focus-visible {
   color: $danger-color;
   font-weight: bold;
 }
+
+.disabled {
+  pointer-events: none;
+}
