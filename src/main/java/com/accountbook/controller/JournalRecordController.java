@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accountbook.controller.base.ApiController;
 import com.accountbook.exception.JournalRecordException;
+import com.accountbook.model.dto.JournalMemo;
 import com.accountbook.model.dto.JournalRecord;
 import com.accountbook.model.dto.ViewJournalRecordYearMonth;
+import com.accountbook.model.vo.JsonJournalMemo;
 import com.accountbook.model.vo.JsonJournalRecord;
 import com.accountbook.model.vo.JsonViewJournalRecordYearMonth;
 import com.accountbook.model.vo.req.JournalRecordReqAdd;
@@ -19,6 +21,7 @@ import com.accountbook.model.vo.req.JournalRecordReqModify;
 import com.accountbook.model.vo.req.JournalRecordReqRemove;
 import com.accountbook.model.vo.req.JournalRecordReqYearMonth;
 import com.accountbook.model.vo.resp.Resp;
+import com.accountbook.service.JournalMemoService;
 import com.accountbook.service.JournalRecordService;
 
 /**
@@ -33,6 +36,9 @@ public class JournalRecordController extends ApiController {
 
     @Autowired
     private JournalRecordService journalRecordService;
+
+    @Autowired
+    private JournalMemoService journalMemoService;
 
     /**
      * [新增 日記帳資料]
@@ -175,7 +181,7 @@ public class JournalRecordController extends ApiController {
     }
 
     /**
-     * [查 日記帳年月資料]
+     * [查 日記帳年月資料] 下拉選單
      * 
      * @author cano.su
      * @since 2024/11/21
@@ -188,6 +194,28 @@ public class JournalRecordController extends ApiController {
             final List<JsonViewJournalRecordYearMonth> jsonViewJournalRecordYearMonths = viewJournalRecordYearMonths
                     .stream()
                     .map(JsonViewJournalRecordYearMonth::of)
+                    .collect(Collectors.toList());
+            return Resp.ofSuccess(jsonViewJournalRecordYearMonths);
+
+        } catch (Exception e) {
+            return Resp.ofQueryException(e);
+        }
+    }
+
+    /**
+     * [查 日記帳摘要資料] 下拉選單
+     * 
+     * @author cano.su
+     * @since 2024/12/08
+     * @return 回應
+     */
+    @PostMapping("/list/memo")
+    public String findByMemo() {
+        try {
+            final List<JournalMemo> journalMemos = journalMemoService.findAll();
+            final List<JsonJournalMemo> jsonViewJournalRecordYearMonths = journalMemos
+                    .stream()
+                    .map(JsonJournalMemo::of)
                     .collect(Collectors.toList());
             return Resp.ofSuccess(jsonViewJournalRecordYearMonths);
 

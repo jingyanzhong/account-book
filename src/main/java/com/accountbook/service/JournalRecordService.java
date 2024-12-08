@@ -151,8 +151,8 @@ public class JournalRecordService {
             final YearMonth yearMonth = req.getYearMonth();
             return journalRecordRepository.findByYearMonth(yearMonth);
 
-        } catch (Exception e) {
-            throw JournalRecordException.ofQueryValidError();
+        } catch (JournalRecordException e) {
+            throw e;
         }
     }
 
