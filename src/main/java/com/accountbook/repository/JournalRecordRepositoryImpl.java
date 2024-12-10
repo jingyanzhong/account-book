@@ -88,6 +88,7 @@ public class JournalRecordRepositoryImpl implements JournalRecordRepository {
         po.setCredit(dto.getCredit().getCode());
         po.setAmount(dto.getAmount());
         po.setMemo(dto.getMemo());
+        po.setRemark(dto.getRemark());
         return po;
     }
 
@@ -103,6 +104,7 @@ public class JournalRecordRepositoryImpl implements JournalRecordRepository {
                 .orElseThrow(() -> new IllegalArgumentException("查無對應的貸項 [debit=" + creditCode + "]"));
         final BigDecimal amount = po.getAmount();
         final String memo = po.getMemo();
-        return JournalRecord.ofRead(key, txTime, debit, credit, amount, memo);
+        final String remark = po.getRemark();
+        return JournalRecord.ofRead(key, txTime, debit, credit, amount, memo, remark);
     }
 }

@@ -100,6 +100,17 @@ public enum JournalRecordReqAddValidator {
                 throw JournalRecordException.ofAddValidErrorParam(this.name() + " 不可為空");
             }
         }
+    },
+    REMARK {
+        @Override
+        public void valid(JournalRecordReqValidatorLib lib, JournalRecordReqAdd req) throws JournalRecordException {
+            if (lib == null) {
+                throw JournalRecordException.ofAddValidError("lib 不可為空");
+            }
+            if (req == null) {
+                throw JournalRecordException.ofAddValidError("req 不可為空");
+            }
+        }
     };
 
     /** 參數驗證 */

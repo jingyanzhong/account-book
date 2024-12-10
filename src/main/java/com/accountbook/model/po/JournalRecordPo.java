@@ -49,6 +49,10 @@ public class JournalRecordPo {
     @Column(name = "memo")
     private String memo;
 
+    /** 備註 */
+    @Column(name = "remark")
+    private String remark;
+
     /** 建立時間 */
     @Column(name = "create_time", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,6 +82,10 @@ public class JournalRecordPo {
         this.memo = memo;
     }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public void setCreateTime(Calendar createTime) {
         this.createTime = createTime;
     }
@@ -104,6 +112,10 @@ public class JournalRecordPo {
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     public Calendar getCreateTime() {

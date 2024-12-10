@@ -30,9 +30,12 @@ public class JournalRecord {
 
     /** 摘要 */
     private final String memo;
+    
+    /** 備註 */
+    private final String remark;
 
     private JournalRecord(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
-            String memo) {
+            String memo, String remark) {
         super();
         this.key = key;
         this.txTime = Objects.requireNonNull(txTime, "交易時間 must not be null.");
@@ -40,24 +43,25 @@ public class JournalRecord {
         this.credit = Objects.requireNonNull(credit, "貸項 must not be null.");
         this.amount = Objects.requireNonNull(amount, "金額 must not be null.");
         this.memo = Objects.requireNonNull(memo, "摘要 must not be null.");
+        this.remark = Objects.requireNonNull(remark, "備註 must not be null.");
     }
 
     /** 新增紀錄 */
     public static JournalRecord ofNew(LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
-            String memo) {
-        return new JournalRecord(null, txTime, debit, credit, amount, memo);
+            String memo, String remark) {
+        return new JournalRecord(null, txTime, debit, credit, amount, memo, remark);
     }
 
     /** 更新紀錄 */
     public static JournalRecord ofModify(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
-            String memo) {
-        return new JournalRecord(key, txTime, debit, credit, amount, memo);
+            String memo, String remark) {
+        return new JournalRecord(key, txTime, debit, credit, amount, memo, remark);
     }
 
     /** 讀取紀錄 */
     public static JournalRecord ofRead(Long key, LocalDateTime txTime, Subject debit, Subject credit, BigDecimal amount,
-            String memo) {
-        return new JournalRecord(key, txTime, debit, credit, amount, memo);
+            String memo, String remark) {
+        return new JournalRecord(key, txTime, debit, credit, amount, memo, remark);
     }
 
     public Optional<Long> getKey() {
@@ -82,6 +86,10 @@ public class JournalRecord {
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
 }

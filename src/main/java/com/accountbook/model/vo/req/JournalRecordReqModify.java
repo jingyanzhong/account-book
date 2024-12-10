@@ -28,6 +28,9 @@ public class JournalRecordReqModify implements JournalRecordReqBase {
     /** 摘要 */
     private String memo;
 
+    /** 備註 */
+    private String remark;
+
     public void setKey(Long key) {
         this.key = key;
     }
@@ -52,6 +55,10 @@ public class JournalRecordReqModify implements JournalRecordReqBase {
         this.memo = memo;
     }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Long getKey() {
         return key;
     }
@@ -74,6 +81,10 @@ public class JournalRecordReqModify implements JournalRecordReqBase {
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
 }

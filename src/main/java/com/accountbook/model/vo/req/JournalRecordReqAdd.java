@@ -25,6 +25,9 @@ public class JournalRecordReqAdd implements JournalRecordReqBase {
     /** 摘要 */
     private String memo;
 
+    /** 備註 */
+    private String remark;
+
     public void setTxTime(String txTime) {
         this.txTime = txTime;
     }
@@ -45,6 +48,10 @@ public class JournalRecordReqAdd implements JournalRecordReqBase {
         this.memo = memo;
     }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getTxTime() {
         return txTime;
     }
@@ -63,6 +70,10 @@ public class JournalRecordReqAdd implements JournalRecordReqBase {
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
 }

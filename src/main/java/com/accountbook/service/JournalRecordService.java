@@ -59,7 +59,7 @@ public class JournalRecordService {
                 TimeUtils.parseLocalDateTime(TimeUtils.DATEPATTERN_YYYYMMDD_HHMMSS, req.getTxTime()),
                 subjectRepository.findByCode(req.getDebit()).get(),
                 subjectRepository.findByCode(req.getCredit()).get(),
-                req.getAmount(), req.getMemo());
+                req.getAmount(), req.getMemo(), req.getRemark());
         return journalRecordRepository.save(journalRecord);
     }
 
@@ -81,7 +81,7 @@ public class JournalRecordService {
                 TimeUtils.parseLocalDateTime(TimeUtils.DATEPATTERN_YYYYMMDD_HHMMSS, req.getTxTime()),
                 subjectRepository.findByCode(req.getDebit()).get(),
                 subjectRepository.findByCode(req.getCredit()).get(),
-                req.getAmount(), req.getMemo());
+                req.getAmount(), req.getMemo(), req.getRemark());
         return journalRecordRepository.save(journalRecord);
     }
 
