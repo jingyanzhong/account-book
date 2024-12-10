@@ -719,6 +719,10 @@ h2 span {
   text-align: center;
   margin-bottom: 60px;
 }
+.report_content h3 span {
+  display: block;
+  padding-top: 16px;
+}
 .report_content > div {
   display: flex;
   flex-direction: column;

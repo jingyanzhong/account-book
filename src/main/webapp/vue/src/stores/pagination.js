@@ -21,8 +21,6 @@ export const usePaginationStore = defineStore('paginationStore', () => {
       }
       data.value = journalData.value // 使用 .value 取得實際值
       pageTotal.value = Math.ceil(data.value.length / 10)
-      console.log(data.value)
-      console.log(pageTotal.value)
     } catch (error) {
       console.error('資料獲取失敗', error)
     }

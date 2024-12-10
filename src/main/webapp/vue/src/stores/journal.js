@@ -60,7 +60,6 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     journalData.value = d.value.sort((a, b) => {
       return a.txTime.date < b.txTime.date ? 1 : -1
     })
-    console.log(journalData.value)
     dataRander()
   }
 
@@ -201,8 +200,6 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     currData.value = journalData.value.filter((item, index) => {
       return index >= start && index < end
     })
-
-    console.log(currData.value)
   }
 
   return {

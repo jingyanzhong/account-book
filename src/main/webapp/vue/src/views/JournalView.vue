@@ -32,7 +32,7 @@ function openModel(bool, list) {
       txTime: { date: '', timePoint: '' },
     }
   } else {
-    tempList.value = JSON.parse(JSON.stringify(list))
+    tempList.value = { ...list }
     // console.log(tempList.value)
   }
   isShowMask(true)

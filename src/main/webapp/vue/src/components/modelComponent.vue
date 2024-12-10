@@ -20,7 +20,6 @@ watch(
   () => props.list,
   (item) => {
     cashItem.value = JSON.parse(JSON.stringify(item))
-    initItem.value = JSON.parse(JSON.stringify(item))
   },
 )
 watch(
@@ -29,7 +28,6 @@ watch(
     debitItem.value = item
   },
 )
-const initItem = ref()
 const cashItem = ref({
   key: '',
   amount: '',
@@ -56,7 +54,7 @@ function cancel(resetForm) {
   isShowMask(false)
   isShowModel(false)
   resetForm()
-  cashItem.value = JSON.parse(JSON.stringify(initItem.value))
+  // cashItem.value = JSON.parse(JSON.stringify(initItem.value))
 }
 </script>
 <template>

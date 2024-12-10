@@ -1,33 +1,36 @@
 .title {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 .report_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include mobile {
+    flex-direction: column;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+    span {
+      display: block;
+      padding-top: 16px;
+    }
+  }
+  & > div {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(50% - 16px);
+    height: 100%;
     @include mobile {
-        flex-direction: column;
+      width: 100%;
     }
-    h3 {
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 60px;
+  }
+  .income {
+    @include mobile {
+      margin-bottom: 36px;
     }
-    & > div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: calc(50% - 16px);
-        height: 100%;
-        @include mobile {
-            width: 100%;
-        }
-    }
-    .income {
-        @include mobile {
-            margin-bottom: 36px;
-
-        }
-    }
+  }
 }
