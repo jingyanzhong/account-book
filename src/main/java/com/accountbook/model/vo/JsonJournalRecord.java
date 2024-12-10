@@ -34,6 +34,9 @@ public class JsonJournalRecord implements JsonVo<JournalRecord> {
     /** 摘要 */
     private String memo;
 
+    /** 備註 */
+    private String remark;
+
     private JsonJournalRecord() {
         super();
     }
@@ -45,7 +48,8 @@ public class JsonJournalRecord implements JsonVo<JournalRecord> {
                 .setDebit(JsonSubject.of(dto.getDebit()))
                 .setCredit(JsonSubject.of(dto.getCredit()))
                 .setAmount(dto.getAmount())
-                .setMemo(dto.getMemo());
+                .setMemo(dto.getMemo())
+                .setRemark(dto.getRemark());
     }
 
     public JsonJournalRecord setKey(Long key) {
@@ -78,6 +82,11 @@ public class JsonJournalRecord implements JsonVo<JournalRecord> {
         return this;
     }
 
+    public JsonJournalRecord setRemark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
     public Long getKey() {
         return key;
     }
@@ -100,6 +109,10 @@ public class JsonJournalRecord implements JsonVo<JournalRecord> {
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
 }
