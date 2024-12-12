@@ -38,6 +38,10 @@ public class JsonSubject {
         return new JsonSubject(subject.getCode(), subject.getName());
     }
 
+    public static JsonSubject of(String code, String name) {
+        return new JsonSubject(code, name);
+    }
+
     public String getCode() {
         return code;
     }
