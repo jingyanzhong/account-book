@@ -58,9 +58,9 @@ public abstract class ProcedureDto<DTO> {
      * @param convertor 轉換 DTO Function
      * @return
      */
-    private List<DTO> toDto(List<Object[]> results, Function<Object[], DTO> convertor) {
+    private List<DTO> toDto(List<Object[]> results) {
         return results.stream()
-                .map(convertor::apply)
+                .map(this.getConvertor())
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +83,7 @@ public abstract class ProcedureDto<DTO> {
             query.setParameter(index, value);
         });
         final List<Object[]> results = query.getResultList();
-        return this.toDto(results, this.getConvertor());
+        return this.toDto(results);
     }
 
 }
