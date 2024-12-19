@@ -12,12 +12,16 @@ const { showMask, isNew } = storeToRefs(ModelShowStore)
 import { useJournalStore } from '@/stores/journal'
 const JournalStore = useJournalStore()
 const { findData, updateList, editList, delList } = JournalStore
-const { debitList, optionSort, journalData, allDate, currData } = storeToRefs(JournalStore)
+const { debitList, optionSort, journalData, allDate, currData, memoData } =
+  storeToRefs(JournalStore)
 
 import { usePaginationStore } from '@/stores/pagination'
 const PaginationStore = usePaginationStore()
 const { initPage } = PaginationStore
-// const { pageTotal, currPage } = storeToRefs(PaginationStore)
+
+import { usethousandthsFormatStore } from '@/stores/thousandthsFormat'
+const thousandthsFormatStore = usethousandthsFormatStore()
+const { thousandthsFormat } = thousandthsFormatStore
 
 const tempList = ref({})
 function openModel(bool, list) {
@@ -29,6 +33,7 @@ function openModel(bool, list) {
       credit: { code: '', name: '' },
       debit: { code: '', name: '' },
       memo: '',
+      remark: '',
       txTime: { date: '', timePoint: '' },
     }
   } else {
@@ -61,25 +66,19 @@ function openDelModel(key) {
           <thead>
             <tr>
               <!-- <th>ID</th> -->
-              <th width="15%">Date</th>
+              <th width="12%">Date</th>
               <th width="10%">Debit</th>
               <th width="10%">Credit</th>
-              <th width="15%">Amount</th>
-              <th width="20%">MEMO</th>
+              <th width="13%">Amount</th>
+              <th width="12%">MEMO</th>
+              <th width="15%">reMark</th>
               <th width="15%">
                 Time<br />
                 Modify
               </th>
-              <th width="15%">operate</th>
+              <th width="23%">operate</th>
             </tr>
             <tr class="search">
-              <!-- <td>
-                <div class="reset-btn">
-                  <button type="button">
-                    <span class="material-symbols-outlined">restart_alt</span>
-                  </button>
-                </div>
-              </td> -->
               <td>
                 <select name="date" id="date" @change="initPage($event)" v-model="optionSort">
                   <option
@@ -105,12 +104,12 @@ function openDelModel(key) {
           </thead>
           <tbody>
             <tr v-for="item in currData" :key="item.key">
-              <!-- <td>{{ item.key }}</td> -->
               <td>{{ item.txTime.date }}</td>
               <td>{{ item.debit.name }}</td>
               <td>{{ item.credit.name }}</td>
-              <td>{{ item.amount }}</td>
+              <td>{{ thousandthsFormat(item.amount) }}</td>
               <td>{{ item.memo }}</td>
+              <td>{{ item.remark }}</td>
               <td>{{ item.txTime.timePoint }}</td>
               <td>
                 <div class="btn-group">
@@ -133,6 +132,7 @@ function openDelModel(key) {
   <Model
     :list="tempList"
     :debitData="debitList"
+    :memoData="memoData"
     @update-list="updateList"
     @edit-list="editList"
   ></Model>

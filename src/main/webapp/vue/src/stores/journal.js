@@ -32,19 +32,19 @@ export const useJournalStore = defineStore('journalCRUD', () => {
       }
 
       const url = '//localhost:8080/account-book/api/journalRecord/findByYearMonth'
-      const params = new URLSearchParams()
-      params.append('year', year.value)
-      params.append('month', month.value)
 
-      const data = ref()
+      const data = {
+        year: year.value,
+        month: month.value,
+      }
       axios
-        .post(url, params, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
-          },
+        .post(url, data, {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
         })
         .then((res) => {
           data.value = res.data.data
+          console.log(data.value)
+
           journalDataSort(data)
           resolve()
         })
@@ -55,10 +55,18 @@ export const useJournalStore = defineStore('journalCRUD', () => {
         })
     })
   }
-  // 日記帳data資料按照 key值 重新排序
+  // 日記帳data資料按照 日期 時間 重新排序
   function journalDataSort(d) {
     journalData.value = d.value.sort((a, b) => {
-      return a.txTime.date < b.txTime.date ? 1 : -1
+      // 首先按照日期排序
+      if (a.txTime.date < b.txTime.date) return 1 // 日期較早的排在後面
+      if (a.txTime.date > b.txTime.date) return -1 // 日期較晚的排在前面
+
+      // 如果日期相同，則按照時間排序
+      if (a.txTime.timePoint < b.txTime.timePoint) return 1 // 時間較早的排在後面
+      if (a.txTime.timePoint > b.txTime.timePoint) return -1 // 時間較晚的排在前面
+
+      return 0 // 如果日期和時間都相同，則不變
     })
     dataRander()
   }
@@ -79,6 +87,24 @@ export const useJournalStore = defineStore('journalCRUD', () => {
       })
   }
 
+  // 取得MEMO項目
+  const memoData = ref()
+  function getMemoData() {
+    const url = '//localhost:8080/account-book/api/journalRecord/list/memo'
+
+    axios
+      .post(url)
+      .then((res) => {
+        memoData.value = res.data.data
+        console.log(memoData.value)
+      })
+      .catch((res) => {
+        console.log(res)
+      })
+  }
+  onMounted(() => {
+    getMemoData()
+  })
   function allDateSort(d) {
     allDate.value = d.value.sort((a, b) => {
       if (a.year !== b.year) {
@@ -97,24 +123,23 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     const PaginationStore = usePaginationStore()
     const { initPage } = PaginationStore
     const url = '//localhost:8080/account-book/api/journalRecord/add'
-    const date = new Date()
-    const hours = date.getHours()
-    const min = date.getMinutes()
-    const sec = date.getSeconds()
-    const time = `${hours < 10 ? '0' + hours : hours}:${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
+    // const date = new Date()
+    // const hours = date.getHours()
+    // const min = date.getMinutes()
+    // const sec = date.getSeconds()
+    // const time = `${hours < 10 ? '0' + hours : hours}:${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
 
-    const params = new URLSearchParams()
-    params.append('txTime', `${item.txTime.date} ${time}`)
-    params.append('debit', item.debit.code)
-    params.append('credit', item.credit.code)
-    params.append('amount', item.amount)
-    params.append('memo', item.memo)
-
+    const data = {
+      txTime: `${item.txTime.date} ${item.txTime.timePoint}`,
+      debit: item.debit.code,
+      credit: item.credit.code,
+      amount: item.amount,
+      memo: item.memo,
+      remark: item.remark,
+    }
     axios
-      .post(url, params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
-        },
+      .post(url, data, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
       })
       .then((res) => {
         console.log(res)
@@ -143,13 +168,12 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     params.append('credit', item.credit.code)
     params.append('amount', item.amount)
     params.append('memo', item.memo)
+    params.append('remark', item.remark)
     params.append('key', item.key)
 
     axios
       .post(url, params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
-        },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
       })
       .then((res) => {
         console.log(res)
@@ -174,11 +198,7 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     const params = new URLSearchParams()
     params.append('key', key.value)
     axios
-      .post(url, params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
-        },
-      })
+      .post(url, params)
       .then((res) => {
         console.log(res)
         if (res.data.message === '成功') {
@@ -213,5 +233,7 @@ export const useJournalStore = defineStore('journalCRUD', () => {
     delList,
     dataRander,
     currData,
+    getMemoData,
+    memoData,
   }
 })
