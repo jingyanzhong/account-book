@@ -41,13 +41,70 @@ function showNextPage() {
           >1</a
         >
       </li>
-      <li
-        class="page-item"
-        v-for="page in pageTotal"
-        v-show="page > 1"
-        @click.prevent="changePage(page)"
-      >
-        <a class="page-link" href="#" :class="{ active: currPage == page }">{{ page }}</a>
+      <li v-show="currPage >= 3">...</li>
+      <li class="page-item" v-show="pageTotal >= 2 && currPage < 3">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(2)"
+          :class="{ active: currPage == 2 }"
+          >2</a
+        >
+      </li>
+      <li class="page-item" v-show="pageTotal >= 3 && currPage < 3">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(3)"
+          :class="{ active: currPage == 3 }"
+          >3</a
+        >
+      </li>
+      <li class="page-item" v-show="currPage == pageTotal">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(currPage - 2)"
+          :class="{ active: currPage == currPage - 2 }"
+          >{{ currPage - 2 }}</a
+        >
+      </li>
+      <li class="page-item" v-show="currPage > 2">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(currPage - 1)"
+          :class="{ active: currPage == currPage - 1 }"
+          >{{ currPage - 1 }}</a
+        >
+      </li>
+      <li class="page-item" v-show="currPage > 2">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(currPage)"
+          :class="{ active: currPage == currPage }"
+          >{{ currPage }}</a
+        >
+      </li>
+      <li class="page-item" v-show="currPage > 2 && currPage + 1 < pageTotal">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(currPage + 1)"
+          :class="{ active: currPage == currPage + 1 }"
+          >{{ currPage + 1 }}</a
+        >
+      </li>
+      <li v-show="pageTotal > 3 && currPage < 5">...</li>
+      <li class="page-item" v-show="pageTotal > 3 && currPage < pageTotal">
+        <a
+          class="page-link"
+          href="#"
+          @click.prevent="changePage(pageTotal)"
+          :class="{ active: currPage == pageTotal }"
+          >{{ pageTotal }}</a
+        >
       </li>
       <li
         class="page-item"
