@@ -419,7 +419,7 @@ h2 span {
   width: 100%;
   background: #fff;
   border-radius: 16px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -485,6 +485,11 @@ h2 span {
     border-radius: 8px;
   }
 }
+.model .body .input_item input option:disabled,
+.model .body .input_item select option:disabled {
+  color: #fff;
+  background: gray;
+}
 .model .body .input_item .amount_input {
   position: relative;
 }
@@ -512,6 +517,18 @@ h2 span {
   .model .body .input_item .amount_input input {
     padding: 8px 8px 8px 22px;
   }
+}
+.model .body .input_item .time-picker {
+  margin: 8px 0;
+}
+.model .body .input_item .time-picker .el-input {
+  border: 1px solid #B3B3B3;
+  height: 57px;
+  width: 100%;
+  border-radius: 8px;
+}
+.model .body .input_item .time-picker .el-input__wrapper {
+  border-radius: 8px;
 }
 
 .delModel {
