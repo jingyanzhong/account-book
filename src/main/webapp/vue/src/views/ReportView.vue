@@ -9,15 +9,15 @@
     <div class="report_content">
       <div class="income">
         <h3>
-          年收入 <br />
-          <span>{{ incomeTotal }}元</span>
+          年收入
+          <span>{{ thousandthsFormat(sumCredit) }}元</span>
         </h3>
         <div class="pie_chart1" id="pie_chart1"></div>
       </div>
       <div class="expenses">
         <h3>
-          年支出 <br />
-          <span>{{ expensesTotal }}元</span>
+          年支出
+          <span>{{ thousandthsFormat(sumDebit) }}元</span>
         </h3>
         <div class="pie_chart2" id="pie_chart2"></div>
       </div>
@@ -27,105 +27,51 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-
+import { usethousandthsFormatStore } from '@/stores/thousandthsFormat'
+const thousandthsFormatStore = usethousandthsFormatStore()
+const { thousandthsFormat } = thousandthsFormatStore
 // 取得一整年的日記帳資料
 onMounted(() => {
   getData()
 })
 const data = ref()
-function getData() {
-  let url = '//localhost:8080/account-book/api/journalRecord/findAll'
+const sumCredit = ref(0)
+const sumDebit = ref(0)
+async function getData() {
+  const url = '//localhost:8080/account-book/api/journalReport/monthly'
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const urlData = {
+    year: year,
+    month: month,
+  }
   axios
-    .post(url)
-    .then((res) => {
+    .post(url, urlData, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
+    })
+    .then(async (res) => {
       data.value = res.data.data
+      sumCredit.value = res.data.data.sumCredit
+      sumDebit.value = res.data.data.sumDebit
       console.log(data.value)
-      filterData()
+      await getChartsData()
     })
     .catch((err) => {
       console.log(err)
     })
 }
 
-// 篩選出收入 / 支出data
-const incomeData = ref()
-const expensesData = ref()
-function filterData() {
-  incomeData.value = data.value.filter((item, index) => {
-    return item.credit.code === '1000'
+const creditsData = ref([])
+const debitsData = ref([])
+function getChartsData() {
+  data.value.credits.map((item) => {
+    creditsData.value.push([item.subject.name, item.totalAmount])
   })
-  console.log(incomeData.value)
-  expensesData.value = data.value.filter((item, index) => {
-    return item.credit.code !== '1000'
-  })
-  console.log(expensesData.value)
-  chartsData()
-}
-
-// 組出收入的chart data 和計算出總收入
-const incomeTotal = ref(0)
-function incomeChartDataFn() {
-  const allDebit = ref([])
-  const filterdata = ref([])
-  const data = ref([])
-  incomeData.value.map((item, index) => {
-    allDebit.value.push(item.debit.name)
-    incomeTotal.value += parseInt(item.amount)
+  data.value.debits.map((item) => {
+    debitsData.value.push([item.subject.name, item.totalAmount])
   })
 
-  allDebit.value.filter((item, index, arr) => {
-    if (arr.indexOf(item) === index) {
-      filterdata.value.push({ name: item, amount: 0 })
-    }
-  })
-
-  incomeData.value.map((item, index) => {
-    for (let i = 0; i < filterdata.value.length; i++) {
-      item.debit.name === filterdata.value[i].name
-        ? (filterdata.value[i].amount += parseInt(item.amount))
-        : ''
-    }
-  })
-
-  filterdata.value.map((item, index) => {
-    data.value.push([item.name, item.amount])
-  })
-  return data.value
-}
-
-// 組出支出的 chart data和計算出總支出
-const expensesTotal = ref(0)
-function expensesChartDataFn() {
-  const allDebit = ref([])
-  const filterdata = ref([])
-  const data = ref([])
-  expensesData.value.map((item, index) => {
-    allDebit.value.push(item.debit.name)
-    expensesTotal.value += parseInt(item.amount)
-  })
-  allDebit.value.filter((item, index, arr) => {
-    if (arr.indexOf(item) === index) {
-      filterdata.value.push({ name: item, amount: 0 })
-    }
-  })
-  expensesData.value.map((item, index) => {
-    for (let i = 0; i < filterdata.value.length; i++) {
-      item.debit.name === filterdata.value[i].name
-        ? (filterdata.value[i].amount += parseInt(item.amount))
-        : ''
-    }
-  })
-  filterdata.value.map((item, index) => {
-    data.value.push([item.name, item.amount])
-  })
-  return data.value
-}
-
-const incomeChartData = ref([])
-const expensesChartData = ref([])
-function chartsData() {
-  incomeChartData.value = incomeChartDataFn()
-  expensesChartData.value = expensesChartDataFn()
   initCharts()
 }
 
@@ -171,7 +117,7 @@ function drawPieChart1(w, h) {
   let data = new google.visualization.DataTable()
   data.addColumn('string', 'Topping')
   data.addColumn('number', 'Slices')
-  data.addRows(incomeChartData.value)
+  data.addRows(creditsData.value)
 
   // Set chart options
   let options = {
@@ -194,7 +140,7 @@ function drawPieChart2(w, h) {
   let data = new google.visualization.DataTable()
   data.addColumn('string', 'Topping')
   data.addColumn('number', 'Slices')
-  data.addRows(expensesChartData.value)
+  data.addRows(debitsData.value)
 
   // Set chart options
   let options = {
