@@ -6,23 +6,72 @@
         <span> | 財務報表</span>
       </h2>
     </div>
+    <div class="dateSelect">
+      <select name="" id="year" v-model="changeYear">
+        <option value="2025">2025年</option>
+        <option value="2024">2024年</option>
+      </select>
+      <select name="" id="month" v-model="changeMonth">
+        <option value="1">01月</option>
+        <option value="2">02月</option>
+        <option value="3">03月</option>
+        <option value="4">04月</option>
+        <option value="5">05月</option>
+        <option value="6">06月</option>
+        <option value="7">07月</option>
+        <option value="8">08月</option>
+        <option value="9">09月</option>
+        <option value="10">10月</option>
+        <option value="11">11月</option>
+        <option value="12">12月</option>
+      </select>
+      <button type="button" @click="getData(changeYear, changeMonth)">查詢</button>
+    </div>
     <div class="report_content">
       <div class="income">
         <h3>
-          年收入
+          月收入
           <span>{{ thousandthsFormat(sumCredit) }}元</span>
         </h3>
         <div class="pie_chart1" id="pie_chart1"></div>
       </div>
       <div class="expenses">
         <h3>
-          年支出
+          月支出
           <span>{{ thousandthsFormat(sumDebit) }}元</span>
         </h3>
         <div class="pie_chart2" id="pie_chart2"></div>
       </div>
     </div>
-    <div class="table"></div>
+    <div class="table" v-if="data !== undefined">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="12">{{ data.month }}月份收支總覽</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="12">收入</th>
+          </tr>
+          <tr>
+            <td v-for="item in data.credits">{{ item.subject.name }}</td>
+          </tr>
+          <tr>
+            <td v-for="item in data.credits">{{ thousandthsFormat(item.totalAmount) }}</td>
+          </tr>
+          <tr>
+            <th colspan="12">支出</th>
+          </tr>
+          <tr>
+            <td v-for="item in data.debits">{{ item.subject.name }}</td>
+          </tr>
+          <tr>
+            <td v-for="item in data.debits">{{ thousandthsFormat(item.totalAmount) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script setup>
@@ -38,11 +87,15 @@ onMounted(() => {
 const data = ref()
 const sumCredit = ref(0)
 const sumDebit = ref(0)
-async function getData() {
+const date = new Date()
+const year = date.getFullYear()
+const month = date.getMonth() + 1
+const changeYear = ref(year)
+const changeMonth = ref(month)
+async function getData(y = year, m = month) {
   const url = '//localhost:8080/account-book/api/journalReport/monthly'
-  const date = new Date()
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
+  const year = y
+  const month = m
   const urlData = {
     year: year,
     month: month,
@@ -52,6 +105,8 @@ async function getData() {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
     })
     .then(async (res) => {
+      console.log(data.value)
+
       data.value = res.data.data
       sumCredit.value = res.data.data.sumCredit
       sumDebit.value = res.data.data.sumDebit
@@ -66,8 +121,8 @@ async function getData() {
 const creditsData = ref([])
 const debitsData = ref([])
 function getChartsData() {
-  console.log(data.value.credits)
-  console.log(data.value.debits)
+  creditsData.value = []
+  debitsData.value = []
   if (data.value.credits !== undefined) {
     data.value.credits.map((item) => {
       creditsData.value.push([item.subject.name, item.totalAmount])

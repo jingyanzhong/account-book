@@ -720,6 +720,20 @@ h2 span {
   margin-bottom: 24px;
 }
 
+.dateSelect {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.dateSelect select {
+  margin-right: 8px;
+  margin-bottom: 0;
+}
+.dateSelect button {
+  background: #1B6032;
+  font-size: 16px;
+}
+
 .report_content {
   display: flex;
   justify-content: space-between;
@@ -756,6 +770,44 @@ h2 span {
   .report_content .income {
     margin-bottom: 36px;
   }
+}
+
+.table {
+  margin-top: 36px;
+  overflow-x: auto;
+  width: 100%;
+}
+.table table {
+  max-width: 1520px;
+  width: 1480px;
+  table-layout: fixed;
+}
+@media (max-width: 767px) {
+  .table table {
+    width: 960px;
+  }
+}
+.table table tr {
+  border-bottom: 1px solid #B3B3B3;
+}
+.table table th {
+  background: #B3B3B3;
+}
+@media (max-width: 767px) {
+  .table table th {
+    text-align: start;
+  }
+}
+.table table td {
+  text-align: center;
+}
+.table table th,
+.table table td {
+  padding: 8px;
+}
+.table table thead th {
+  background: #D7ECE2;
+  padding: 16px;
 }
 
 .container-subject {

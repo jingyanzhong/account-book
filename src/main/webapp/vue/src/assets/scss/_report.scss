@@ -1,6 +1,19 @@
 .title {
   margin-bottom: 24px;
 }
+.dateSelect {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  select {
+    margin-right: 8px;
+    margin-bottom: 0;
+  }
+  button {
+    background: $primary-color;
+    font-size: 16px;
+  }
+}
 .report_content {
   display: flex;
   justify-content: space-between;
@@ -31,6 +44,41 @@
   .income {
     @include mobile {
       margin-bottom: 36px;
+    }
+  }
+}
+.table {
+  margin-top: 36px;
+  overflow-x: auto;
+  width: 100%;
+  table {
+    max-width: 1520px;
+    width: 1480px;
+    table-layout: fixed;
+    @include mobile {
+      width: 960px;
+    }
+    tr {
+      border-bottom: 1px solid $gray-color;
+    }
+    th {
+      background: $gray-color;
+      @include mobile {
+        text-align: start;
+      }
+    }
+    td {
+      text-align: center;
+    }
+    th,
+    td {
+      padding: 8px;
+    }
+    thead {
+      th {
+        background: $secondary-color;
+        padding: 16px;
+      }
     }
   }
 }
