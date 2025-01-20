@@ -96,7 +96,7 @@ function showNextPage() {
           >{{ currPage + 1 }}</a
         >
       </li>
-      <li v-show="pageTotal > 3 && currPage < 5">...</li>
+      <li v-show="pageTotal > 3 && currPage < pageTotal - 2">...</li>
       <li class="page-item" v-show="pageTotal > 3 && currPage < pageTotal">
         <a
           class="page-link"

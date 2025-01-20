@@ -22,6 +22,7 @@
         <div class="pie_chart2" id="pie_chart2"></div>
       </div>
     </div>
+    <div class="table"></div>
   </div>
 </template>
 <script setup>
@@ -65,12 +66,18 @@ async function getData() {
 const creditsData = ref([])
 const debitsData = ref([])
 function getChartsData() {
-  data.value.credits.map((item) => {
-    creditsData.value.push([item.subject.name, item.totalAmount])
-  })
-  data.value.debits.map((item) => {
-    debitsData.value.push([item.subject.name, item.totalAmount])
-  })
+  console.log(data.value.credits)
+  console.log(data.value.debits)
+  if (data.value.credits !== undefined) {
+    data.value.credits.map((item) => {
+      creditsData.value.push([item.subject.name, item.totalAmount])
+    })
+  }
+  if (data.value.debits !== undefined) {
+    data.value.debits.map((item) => {
+      debitsData.value.push([item.subject.name, item.totalAmount])
+    })
+  }
 
   initCharts()
 }
