@@ -1,8 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { reactive, watch } from 'vue'
 import { useModelShowStore } from '@/stores/modelShow'
 import { storeToRefs } from 'pinia'
-import { useForm } from 'vee-validate'
 const ModelShowStore = useModelShowStore()
 const { isShowModel, isShowMask } = ModelShowStore
 const { showModel, isNew } = storeToRefs(ModelShowStore)
@@ -10,38 +9,37 @@ const emit = defineEmits(['update-list', 'edit-list'])
 const props = defineProps({
   list: {
     type: Object,
-    default: {},
+    default: () => ({}),
   },
   debitData: {
     type: Object,
-    default: {},
+    default: () => ({}),
   },
   memoData: {
     type: Object,
-    default: {},
+    default: () => ({}),
   },
 })
 watch(
   () => props.list,
   (item) => {
-    cashItem.value = JSON.parse(JSON.stringify(item))
-    console.log(cashItem.value.memo)
+    Object.assign(cashItem, JSON.parse(JSON.stringify(item)))
   },
+  { deep: true },
 )
 watch(
   () => props.debitData,
   (item) => {
-    debitItem.value = item
+    Object.assign(debitItem, item)
   },
 )
 watch(
   () => props.memoData,
   (item) => {
-    memoItem.value = item
-    console.log(memoItem.value)
+    Object.assign(memoItem, item)
   },
 )
-const cashItem = ref({
+const cashItem = reactive({
   key: '',
   amount: '',
   credit: { code: '', name: '' },
@@ -50,8 +48,8 @@ const cashItem = ref({
   remark: '',
   txTime: { date: '', timePoint: '' },
 })
-const memoItem = ref({})
-const debitItem = ref({})
+const memoItem = reactive({})
+const debitItem = reactive({})
 
 // 判斷如果debit.code等於以下代號,則設定為disabled
 const disabledCodes = ['1000', '2000', '3000', '4000', '5000', '6000', '7000']
@@ -60,14 +58,13 @@ const isDisabled = (code) => {
   return disabledCodes.includes(code)
 }
 
-async function updateItem(val, { resetForm }) {
-  console.log(cashItem.value)
+function updateItem(val, { resetForm }) {
   isShowMask(false)
   isShowModel(false)
   if (isNew.value) {
-    emit('update-list', cashItem.value)
+    emit('update-list', cashItem)
   } else {
-    emit('edit-list', cashItem.value)
+    emit('edit-list', cashItem)
   }
   resetForm()
 }

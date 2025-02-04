@@ -11,7 +11,6 @@ const { showMenu, showMask } = storeToRefs(menuShowStore)
 const isActiveStore = useIsActiveStore()
 const { navActive, getPath } = isActiveStore
 const { isActive } = storeToRefs(isActiveStore)
-
 // 頁面重新整理時，判斷當前路由，為menu加上active
 onMounted(() => {
   setTimeout(() => {

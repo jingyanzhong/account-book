@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import Model from '@/components/modelComponent.vue'
 import DelModel from '@/components/DeleteModel.vue'
 import pagination from '@/components/paginationComponent.vue'
@@ -11,9 +11,13 @@ const { showMask, isNew } = storeToRefs(ModelShowStore)
 
 import { useJournalStore } from '@/stores/journal'
 const JournalStore = useJournalStore()
-const { findData, updateList, editList, delList } = JournalStore
-const { debitList, optionSort, journalData, allDate, currData, memoData } =
-  storeToRefs(JournalStore)
+// const { findData, updateList, editList, delList } = JournalStore
+const { ournalData, currData, allDate } = storeToRefs(JournalStore)
+
+import { useApiServeStore } from '@/stores/apiServe'
+const apiServeStore = useApiServeStore()
+const { updateList, editList, delList } = apiServeStore
+const { debitList, optionSort, memoData } = storeToRefs(apiServeStore)
 
 import { usePaginationStore } from '@/stores/pagination'
 const PaginationStore = usePaginationStore()

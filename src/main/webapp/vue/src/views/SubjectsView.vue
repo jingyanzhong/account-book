@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 const subject = ref('debit')
-const debitItem = ref({})
-const creditItem = ref({})
+const debitItem = reactive({})
+const creditItem = reactive({})
 
 function addDebitItem(values, { resetForm }) {
   console.log('d', values)
@@ -74,7 +74,7 @@ function addCreditItem(values, { resetForm }) {
             </div>
             <div class="btn-group">
               <button type="button" class="cancel" @click="resetForm">取消</button>
-              <button type="subimt" class="add" :disabled="!meta.valid">新增</button>
+              <button type="submit" class="add" :disabled="!meta.valid">新增</button>
             </div>
           </v-form>
         </div>

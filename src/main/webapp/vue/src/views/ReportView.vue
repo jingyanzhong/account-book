@@ -92,8 +92,9 @@ const year = date.getFullYear()
 const month = date.getMonth() + 1
 const changeYear = ref(year)
 const changeMonth = ref(month)
-async function getData(y = year, m = month) {
-  const url = '//localhost:8080/account-book/api/journalReport/monthly'
+const BASE_API_URL = '//localhost:8080/account-book/api'
+function getData(y = year, m = month) {
+  const url = `${BASE_API_URL}/journalReport/monthly`
   const year = y
   const month = m
   const urlData = {
@@ -105,8 +106,6 @@ async function getData(y = year, m = month) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
     })
     .then(async (res) => {
-      console.log(data.value)
-
       data.value = res.data.data
       sumCredit.value = res.data.data.sumCredit
       sumDebit.value = res.data.data.sumDebit
@@ -138,16 +137,10 @@ function getChartsData() {
 }
 
 function initCharts() {
-  // Load the Visualization API and the corechart package.
   google.charts.load('current', { packages: ['corechart'] })
-
-  // Set a callback to run when the Google Visualization API is loaded.
   google.charts.setOnLoadCallback(resize)
 }
 
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
 function resize() {
   let width = window.innerWidth
   setWidth(width)
@@ -175,13 +168,11 @@ function setWidth(w) {
   drawPieChart2(width, height)
 }
 function drawPieChart1(w, h) {
-  // Create the data table.
   let data = new google.visualization.DataTable()
   data.addColumn('string', 'Topping')
   data.addColumn('number', 'Slices')
   data.addRows(creditsData.value)
 
-  // Set chart options
   let options = {
     width: w,
     height: h,
@@ -192,19 +183,16 @@ function drawPieChart1(w, h) {
     chartArea: { width: '100%', height: '100%', left: 0, top: 0 },
   }
 
-  // Instantiate and draw our chart, passing in some options.
   let chart = new google.visualization.PieChart(document.getElementById('pie_chart1'))
   chart.draw(data, options)
 }
 
 function drawPieChart2(w, h) {
-  // Create the data table.
   let data = new google.visualization.DataTable()
   data.addColumn('string', 'Topping')
   data.addColumn('number', 'Slices')
   data.addRows(debitsData.value)
 
-  // Set chart options
   let options = {
     width: w,
     height: h,
@@ -215,7 +203,6 @@ function drawPieChart2(w, h) {
     chartArea: { width: '100%', height: '100%', left: 0, top: 0 },
   }
 
-  // Instantiate and draw our chart, passing in some options.
   let chart = new google.visualization.PieChart(document.getElementById('pie_chart2'))
   chart.draw(data, options)
 }

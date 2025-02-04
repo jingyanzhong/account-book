@@ -2,26 +2,25 @@
 import { storeToRefs } from 'pinia'
 import { usePaginationStore } from '@/stores/pagination'
 const PaginationStore = usePaginationStore()
-// const {  } = PaginationStore
 const { pageTotal, currPage } = storeToRefs(PaginationStore)
 
 import { useJournalStore } from '@/stores/journal'
 const JournalStore = useJournalStore()
-const { dataRander } = JournalStore
+const { dataRender } = JournalStore
 
 function changePage(page) {
   currPage.value = page
-  dataRander(page)
+  dataRender(page)
 }
 
 function showCurrPage() {
   currPage.value = currPage.value - 1
-  dataRander(currPage.value)
+  dataRender(currPage.value)
 }
 
 function showNextPage() {
   currPage.value = currPage.value + 1
-  dataRander(currPage.value)
+  dataRender(currPage.value)
 }
 </script>
 <template>
