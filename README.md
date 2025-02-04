@@ -10,4 +10,30 @@
 - axios
 - googleCharts
 - vee-validate
-- vue3-toastify
+- vue3-toastify  
+### 專案目錄結構
+|-- account-book   
+　|-- dist  
+　|-- public  
+　|-- src  
+　　|-- App.vue  
+　　|-- main.js  
+　　|-- assets  
+　　|　|-- css  
+　　|　|-- img  
+　　|　|-- scss  
+　　|-- components  
+　　|-- router  
+　　|-- stores  
+　　|-- views  
+　|-- .editorconfig  
+　|-- .eslintrc.cjs  
+　|-- .gitignore  
+　|-- .prettierrc.json  
+　|-- eslint.config.js  
+　|-- index.html  
+　|-- jsconfig.json  
+　|-- package-lock.json  
+　|-- package.json  
+　|-- README.md  
+　|-- vite.config.js  
