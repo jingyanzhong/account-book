@@ -6,13 +6,12 @@ import pagination from '@/components/paginationComponent.vue'
 import { storeToRefs } from 'pinia'
 import { useModelShowStore } from '@/stores/modelShow'
 const ModelShowStore = useModelShowStore()
-const { isShowModel, isShowMask, isShowDelModel } = ModelShowStore
-const { showMask, isNew } = storeToRefs(ModelShowStore)
+const { isShowModel, isShowMask, isShowDelModel, openModel, openDelModel } = ModelShowStore
+const { showMask, isNew, tempList, delKey } = storeToRefs(ModelShowStore)
 
 import { useJournalStore } from '@/stores/journal'
 const JournalStore = useJournalStore()
-// const { findData, updateList, editList, delList } = JournalStore
-const { ournalData, currData, allDate } = storeToRefs(JournalStore)
+const { journalData, currData, allDate } = storeToRefs(JournalStore)
 
 import { useApiServeStore } from '@/stores/apiServe'
 const apiServeStore = useApiServeStore()
@@ -26,34 +25,6 @@ const { initPage } = PaginationStore
 import { usethousandthsFormatStore } from '@/stores/thousandthsFormat'
 const thousandthsFormatStore = usethousandthsFormatStore()
 const { thousandthsFormat } = thousandthsFormatStore
-
-const tempList = ref({})
-function openModel(bool, list) {
-  isNew.value = bool
-  if (bool) {
-    tempList.value = {
-      key: '',
-      amount: '',
-      credit: { code: '', name: '' },
-      debit: { code: '', name: '' },
-      memo: '',
-      remark: '',
-      txTime: { date: '', timePoint: '' },
-    }
-  } else {
-    tempList.value = { ...list }
-    // console.log(tempList.value)
-  }
-  isShowMask(true)
-  isShowModel(true)
-}
-
-const delKey = ref()
-function openDelModel(key) {
-  delKey.value = key
-  isShowMask(true)
-  isShowDelModel(true)
-}
 </script>
 <template>
   <div class="bg-gray">

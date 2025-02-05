@@ -25,8 +25,8 @@ export const useApiServeStore = defineStore('apiServeStore', () => {
   const month = ref(date.getMonth() + 1)
   const optionSort = ref(0)
 
-  function findData(e) {
-    return new Promise((resolve, reject) => {
+  async function findData(e) {
+    try {
       if (e !== undefined) {
         year.value = e.target[optionSort.value].dataset.year
         month.value = e.target[optionSort.value].dataset.month
@@ -38,22 +38,19 @@ export const useApiServeStore = defineStore('apiServeStore', () => {
         year: year.value,
         month: month.value,
       }
-      axios
-        .post(url, data, {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
-        })
-        .then((res) => {
-          data.value = res.data.data
-          const JournalStore = useJournalStore()
-          JournalStore.journalDataSort(data)
-          resolve()
-        })
-        .catch((res) => {
-          console.log(res)
-          toast.success('查詢失敗！')
-          reject(res)
-        })
-    })
+
+      const response = await axios.post(url, data, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;' },
+      })
+
+      const result = response.data.data
+
+      const JournalStore = useJournalStore()
+      JournalStore.journalDataSort(ref(result))
+    } catch (error) {
+      console.error(error)
+      toast.error('查詢失敗！')
+    }
   }
   // 查詢日記帳 年月資料
   function findDate() {

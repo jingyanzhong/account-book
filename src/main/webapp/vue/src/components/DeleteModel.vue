@@ -16,7 +16,6 @@ watch(
   () => props.delKey,
   (item) => {
     delKey.value = item
-    console.log(item)
   },
 )
 const emit = defineEmits(['del-list'])
