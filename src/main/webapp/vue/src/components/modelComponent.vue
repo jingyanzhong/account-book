@@ -11,13 +11,9 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  debitData: {
+  allData: {
     type: Object,
-    default: () => ({}),
-  },
-  memoData: {
-    type: Object,
-    default: () => ({}),
+    default: () => [],
   },
 })
 watch(
@@ -28,17 +24,13 @@ watch(
   { deep: true },
 )
 watch(
-  () => props.debitData,
+  () => props.allData,
   (item) => {
-    Object.assign(debitItem, item)
+    Object.assign(allData, item)
   },
+  { deep: true },
 )
-watch(
-  () => props.memoData,
-  (item) => {
-    Object.assign(memoItem, item)
-  },
-)
+
 const cashItem = reactive({
   key: '',
   amount: '',
@@ -48,8 +40,7 @@ const cashItem = reactive({
   remark: '',
   txTime: { date: '', timePoint: '' },
 })
-const memoItem = reactive({})
-const debitItem = reactive({})
+const allData = reactive({})
 
 // 判斷如果debit.code等於以下代號,則設定為disabled
 const disabledCodes = ['1000', '2000', '3000', '4000', '5000', '6000', '7000']
@@ -133,7 +124,7 @@ function cancel(resetForm) {
               >
                 <option value="">請選擇...</option>
                 <option
-                  v-for="item in debitItem"
+                  v-for="item in allData.debitData"
                   :key="item.code"
                   :value="item.code"
                   :disabled="isDisabled(item.code)"
@@ -156,7 +147,7 @@ function cancel(resetForm) {
               >
                 <option value="">請選擇...</option>
                 <option
-                  v-for="item in debitItem"
+                  v-for="item in allData.debitData"
                   :value="item.code"
                   :key="item.code"
                   :disabled="isDisabled(item.code)"
@@ -180,7 +171,7 @@ function cancel(resetForm) {
                 :class="{ 'is-invalid': errors['MEMO'] }"
               >
                 <option value="">請選擇...</option>
-                <option v-for="item in memoItem" :value="item.name" :key="item.code">
+                <option v-for="item in allData.memoData" :value="item.name" :key="item.code">
                   {{ item.name }}
                 </option>
               </v-field>

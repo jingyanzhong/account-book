@@ -8,11 +8,10 @@ export const usePaginationStore = defineStore('paginationStore', () => {
   const { findData } = apiServeStore
 
   const JournalStore = useJournalStore()
-  const { journalData } = storeToRefs(JournalStore) // 取得反應式的 journalData
+  const { sortData } = storeToRefs(JournalStore)
 
   const pageTotal = ref(1)
   const currPage = ref(1)
-  const data = ref([])
 
   async function initPage(e) {
     try {
@@ -23,8 +22,7 @@ export const usePaginationStore = defineStore('paginationStore', () => {
       } else {
         await findData()
       }
-      data.value = journalData.value
-      pageTotal.value = Math.ceil(data.value.length / 10)
+      pageTotal.value = Math.ceil(sortData.value.journalData.length / 10)
     } catch (error) {
       console.error('資料獲取失敗', error)
     }

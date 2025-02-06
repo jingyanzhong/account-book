@@ -7,17 +7,23 @@ import { useJournalStore } from '@/stores/journal'
 
 export const useApiServeStore = defineStore('apiServeStore', () => {
   const BASE_API_URL = 'http://localhost:8080/account-book/api'
+  const datas = ref({
+    debitData: [],
+    memoData: [],
+  })
+
+  onMounted(() => {
+    getDebitData()
+    findDate()
+    getMemoData()
+  })
   // get debit所有項目
-  const debitList = ref([])
   function getDebitData() {
     const url = `${BASE_API_URL}/subject/list`
     axios.get(url).then((res) => {
-      debitList.value = res.data
+      datas.value.debitData = res.data
     })
   }
-  onMounted(() => {
-    getDebitData()
-  })
 
   // 查詢某年月 日記帳資料 並渲染到畫面上
   const date = new Date()
@@ -67,26 +73,20 @@ export const useApiServeStore = defineStore('apiServeStore', () => {
         console.log(res)
       })
   }
-  onMounted(() => {
-    findDate()
-  })
+
   // 取得MEMO項目
-  const memoData = ref()
   function getMemoData() {
     const url = `${BASE_API_URL}/journalRecord/list/memo`
 
     axios
       .post(url)
       .then((res) => {
-        memoData.value = res.data.data
+        datas.value.memoData = res.data.data
       })
       .catch((res) => {
         console.log(res)
       })
   }
-  onMounted(() => {
-    getMemoData()
-  })
 
   // 新增資料
   function updateList(item) {
@@ -176,13 +176,12 @@ export const useApiServeStore = defineStore('apiServeStore', () => {
   }
 
   return {
-    debitList,
     optionSort,
     findData,
     updateList,
     editList,
     delList,
     getMemoData,
-    memoData,
+    datas,
   }
 })

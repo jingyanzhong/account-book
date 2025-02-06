@@ -82,7 +82,7 @@ function showNextPage() {
           class="page-link"
           href="#"
           @click.prevent="changePage(currPage)"
-          :class="{ active: currPage == currPage }"
+          :class="{ active: true }"
           >{{ currPage }}</a
         >
       </li>

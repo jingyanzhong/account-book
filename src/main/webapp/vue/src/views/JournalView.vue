@@ -11,12 +11,12 @@ const { showMask, isNew, tempList, delKey } = storeToRefs(ModelShowStore)
 
 import { useJournalStore } from '@/stores/journal'
 const JournalStore = useJournalStore()
-const { journalData, currData, allDate } = storeToRefs(JournalStore)
+const { currData, sortData } = storeToRefs(JournalStore)
 
 import { useApiServeStore } from '@/stores/apiServe'
 const apiServeStore = useApiServeStore()
 const { updateList, editList, delList } = apiServeStore
-const { debitList, optionSort, memoData } = storeToRefs(apiServeStore)
+const { optionSort, datas } = storeToRefs(apiServeStore)
 
 import { usePaginationStore } from '@/stores/pagination'
 const PaginationStore = usePaginationStore()
@@ -57,7 +57,7 @@ const { thousandthsFormat } = thousandthsFormatStore
               <td>
                 <select name="date" id="date" @change="initPage($event)" v-model="optionSort">
                   <option
-                    v-for="(date, index) in allDate"
+                    v-for="(date, index) in sortData.allDate"
                     :value="index"
                     :key="index"
                     :data-year="date.year"
@@ -104,12 +104,6 @@ const { thousandthsFormat } = thousandthsFormatStore
     </div>
   </div>
   <div class="mask" :class="{ active: showMask }"></div>
-  <Model
-    :list="tempList"
-    :debitData="debitList"
-    :memoData="memoData"
-    @update-list="updateList"
-    @edit-list="editList"
-  ></Model>
+  <Model :list="tempList" :allData="datas" @update-list="updateList" @edit-list="editList"></Model>
   <DelModel :del-key="delKey" @del-list="delList"></DelModel>
 </template>
